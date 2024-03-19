@@ -26,6 +26,10 @@
         <spring.boot.starter.jpa.version>3.2.3</spring.boot.starter.jpa.version>
         <spring.boot.autoconfigure.version>3.2.3</spring.boot.autoconfigure.version>
         <junit-jupiter.version>5.10.2</junit-jupiter.version>
+        <lombok.version>1.18.30</lombok.version>
+        <swagger.version>2.2.20</swagger.version>
+        <springdoc.version>1.6.13</springdoc.version>
+        <jackson.datatype.version>2.15.4</jackson.datatype.version>
 
         <!-- Code settings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -157,7 +161,7 @@
 
     <modules>
         <module>ox-doc</module>
-        <module>ox-application</module>
+        <module>ox-user</module>
     </modules>
 
 </project>
