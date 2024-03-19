@@ -1,0 +1,43 @@
+@startuml
+
+title Login API Sequence Diagram
+
+actor Client
+participant AuthController
+participant UserService
+participant UserRepository
+participant JwtUtils
+database Database
+
+Client -> AuthController: POST /api/v1/auth/login/
+    activate AuthController
+    AuthController -> UserService: Get user by email
+    activate UserService
+    UserService -> UserRepository: Retrieve user data
+    activate UserRepository
+    alt User Exists
+    UserRepository -> Database: Retrieve user form DB
+    deactivate UserRepository
+    activate Database
+    Database --> AuthController: User
+    deactivate Database
+        alt Password Matches
+            UserService -> UserService: Check if password matches
+            UserService -> AuthController: Password matches
+            deactivate UserService
+            alt Get Token
+                AuthController --> JwtUtils: Generate token from username
+                activate JwtUtils
+                JwtUtils --> AuthController: Token generated
+            else Invalid username
+                JwtUtils --> Client: BadRequest Error(400)
+                deactivate JwtUtils
+            end
+        else Password Does Not Match
+            AuthController --> Client: Unauthorized Error (401)
+        end
+    else User Not Found
+        AuthController --> Client: User Not Found Error (404)
+    end
+    deactivate AuthController
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+
+title Fetching One User Sequence Diagram
+
+actor Client
+participant UserController
+participant UserService
+participant UserRepository
+participant UserMapper
+database Database
+
+Client -> UserController: GET /api/v1/users/{id}
+UserController -> UserService: getUserById(id)
+alt User Exists
+    UserService -> UserRepository: getById(id)
+    alt User Found
+        UserRepository -> Database: Query user by id
+        Database --> UserRepository: User data
+        UserRepository --> UserService: User data
+        UserService -> UserMapper: toDto(user)
+        UserMapper --> UserService: UserDto
+        UserService --> UserController: UserDto
+        UserController --> Client: 200 OK, UserDto
+    else User Not Found
+        UserRepository --> UserService: null
+        UserService --> UserController: 404 Not Found
+        UserController --> Client: 404 Not Found
+    end
+else Invalid Id
+    UserController --> Client: 400 Bad Request
+end
+
+alt User Unauthorized
+    UserController --> Client: 401 Unauthorized
+end
+
+alt Database Error
+    Database --> Client: 500 Internal Server Error
+end
+
+@enduml

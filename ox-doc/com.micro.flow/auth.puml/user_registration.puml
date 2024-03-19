@@ -1,0 +1,45 @@
+@startuml
+
+title User Registration API Sequence Diagram
+
+actor Client
+participant UserController
+participant UserMapper
+participant UserService
+participant UserRepository
+database Database
+
+
+Client -> UserController: POST /api/v1/auth/registration/
+    UserController -> UserMapper: Map UserDto to User Entity
+    UserMapper --> UserController: User Entity
+    UserController -> UserService: createUser(User)
+    alt User Validation
+        UserService -> UserService: Validate User Data
+        UserService --> UserController: Validation Passed/Failed
+        alt Validation Passed
+            UserService -> UserRepository: save(User)
+            UserRepository -> Database: Sql Query
+            Database -> UserRepository:DB response
+            alt User Saved Successfully
+                UserRepository --> UserController: User saved (2xx)
+            else User Saving Failed
+                alt server error
+                    UserRepository --> UserController: Error saving user (5xx)
+                else client error
+                    UserRepository --> UserController: Error saving user (4xx)
+                end
+            end
+        else Validation Failed
+            UserService --> Client: Validation Error (4xx)
+        end
+    else Exception Handling
+        alt 5xx Exception
+            UserController --> Client: Server Error Handling
+        else 4xx Exception
+            UserController --> Client: Client Error Handling
+    end
+
+end
+
+@enduml
