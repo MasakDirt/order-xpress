@@ -15,6 +15,9 @@ spring:
   sql:
     init:
       mode: always
+      data-locations:
+      - classpath*:/scripts/schema.sql
+      - classpath*:/scripts/data.sql
 
 springdoc:
   swagger-ui.path: /swagger-ui-custom.html
