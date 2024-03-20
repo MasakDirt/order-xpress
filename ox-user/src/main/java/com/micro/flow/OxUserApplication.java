@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OrderXPressApplication {
+public class OxUserApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OrderXPressApplication.class, args);
+        SpringApplication.run(OxUserApplication.class, args);
     }
 
 }

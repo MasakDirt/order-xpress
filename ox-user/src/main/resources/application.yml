@@ -1,0 +1,25 @@
+server:
+  port: 8010
+
+spring:
+  application:
+    name: ox-user
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ox
+    password: 1234
+    url: jdbc:postgresql://localhost:5432/ox
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+      data-locations:
+      - classpath*:/scripts/schema.sql
+      - classpath*:/scripts/data.sql
+
+springdoc:
+  swagger-ui.path: /swagger-ui-custom.html
+  swagger-ui:
+    operationsSorter: method
