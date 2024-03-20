@@ -1,4 +1,4 @@
-package com.micro.flow.entity;
+package com.micro.flow.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
     @NotEmpty(message = "Fill in your name please!")
     private String username;
 
+    @NaturalId
     @NotNull(message = "Must be a valid e-mail address")
     @Pattern(regexp = "[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}",
             message = "Must be a valid e-mail address")
@@ -44,6 +46,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
     private Role role;
+
+    public enum Role {
+        ADMIN, USER, VISITOR
+    }
 
     @Override
     public boolean equals(Object o) {
