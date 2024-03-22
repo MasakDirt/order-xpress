@@ -25,7 +25,7 @@
         <spring.boot.starter.version>3.2.3</spring.boot.starter.version>
         <spring.boot.starter.jpa.version>3.2.3</spring.boot.starter.jpa.version>
         <spring.boot.autoconfigure.version>3.2.3</spring.boot.autoconfigure.version>
-        <spring.cloud.netflix.eureka.version>3.1.0</spring.cloud.netflix.eureka.version>
+        <spring.cloud.version>2023.0.0</spring.cloud.version>
         <junit-jupiter.version>5.10.2</junit-jupiter.version>
         <lombok.version>1.18.30</lombok.version>
         <swagger.version>2.2.20</swagger.version>
@@ -71,6 +71,13 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate.core.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -85,11 +92,6 @@
             <artifactId>junit-jupiter</artifactId>
             <version>${junit-jupiter.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>2.7.5</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -163,6 +165,7 @@
         <module>ox-doc</module>
         <module>ox-user</module>
         <module>ox-eureka</module>
+        <module>ox-config-service</module>
     </modules>
 
 </project>
