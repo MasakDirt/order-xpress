@@ -1,5 +1,5 @@
 server:
-  port: 8010
+  port: 8080
 
 spring:
   application:
@@ -16,8 +16,8 @@ spring:
     init:
       mode: always
       data-locations:
-      - classpath*:/scripts/schema.sql
-      - classpath*:/scripts/data.sql
+        - classpath*:/scripts/schema.sql
+        - classpath*:/scripts/data.sql
 
 springdoc:
   swagger-ui.path: /swagger-ui-custom.html
