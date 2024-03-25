@@ -166,6 +166,7 @@
         <module>ox-user</module>
         <module>ox-eureka</module>
         <module>ox-config-service</module>
+        <module>ox-clothes</module>
     </modules>
 
 </project>
