@@ -1,7 +1,6 @@
 package com.micro.flow.domain;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,25 +12,26 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@Document("socks")
-public class Socks extends Clothes {
+@Document("t-shirt")
+public class TShirt extends Clothes {
 
-    @NotNull(message = "Size must be include!")
-    private SampleSize size;
+    @NotEmpty(message = "Sizes must be included!")
+    private List<SampleSize> sizes;
 
-    @NotEmpty(message = "Colors must be include!")
+    @NotEmpty(message = "Colors must be included!")
     private List<String> colors;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Socks socks = (Socks) o;
-        return size == socks.size && Objects.equals(colors, socks.colors);
+        if (!super.equals(o)) return false;
+        TShirt tShirt = (TShirt) o;
+        return Objects.equals(sizes, tShirt.sizes) && Objects.equals(colors, tShirt.colors);
     }
 
     @Override
     public int hashCode() {
-        return 21 * Objects.hash(size, colors);
+        return 23 * Objects.hash(super.hashCode(), sizes, colors);
     }
 }
