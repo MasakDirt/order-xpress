@@ -1,6 +1,7 @@
 package com.micro.flow.domain;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,8 +13,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@Document("t-shirt")
-public class TShirt extends Clothes {
+@Document("outerwear")
+public class Outerwear extends Clothes {
 
     @NotEmpty(message = "Sizes must be included!")
     private List<SampleSize> sizes;
@@ -21,17 +22,26 @@ public class TShirt extends Clothes {
     @NotEmpty(message = "Colors must be included!")
     private List<String> colors;
 
+    @NotNull(message = "Type of outerwear must be included!")
+    private OuterwearType type;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        TShirt tShirt = (TShirt) o;
-        return Objects.equals(sizes, tShirt.sizes) && Objects.equals(colors, tShirt.colors);
+        Outerwear outerwear = (Outerwear) o;
+        return Objects.equals(sizes, outerwear.sizes) &&
+                Objects.equals(colors, outerwear.colors) && type == outerwear.type;
     }
 
     @Override
     public int hashCode() {
-        return 23 * Objects.hash(super.hashCode(), sizes, colors);
+        return 17 * Objects.hash(super.hashCode(), sizes, colors, type);
     }
+
+    public enum OuterwearType {
+        T_SHIRT, PANTS, JACKET
+    }
+
 }

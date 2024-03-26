@@ -1,6 +1,7 @@
 package com.micro.flow.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-public class Clothes {
+public abstract class Clothes {
 
     @JsonProperty("_id")
     private String id;
@@ -29,6 +30,9 @@ public class Clothes {
 
     @NotEmpty(message = "Describe this product!")
     private String description;
+
+    @Min(value = 0, message = "Amount of clothes cannot be lower than 0!")
+    private int availableAmount;
 
     @Override
     public boolean equals(Object o) {

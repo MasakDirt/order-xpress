@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Socks extends Clothes {
 
     @NotNull(message = "Size must be include!")
-    private SampleSize size;
+    private final SampleSize size = SampleSize.ONE_SIZE;
 
     @NotEmpty(message = "Colors must be include!")
     private List<String> colors;
@@ -34,4 +34,5 @@ public class Socks extends Clothes {
     public int hashCode() {
         return 21 * Objects.hash(size, colors);
     }
+
 }
