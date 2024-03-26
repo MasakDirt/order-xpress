@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
 
+    User create(User user);
+
     User readByEmail(String email);
 
     User readById(Long id);
