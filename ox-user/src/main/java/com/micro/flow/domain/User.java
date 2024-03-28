@@ -94,4 +94,9 @@ public class User implements UserDetails {
         return true;
     }
 
+    public User setRoleAndReturn(Role role) {
+        this.role = role;
+        return this;
+    }
+
 }

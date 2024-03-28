@@ -31,6 +31,7 @@
         <swagger.version>2.2.20</swagger.version>
         <springdoc.version>1.6.13</springdoc.version>
         <jackson.datatype.version>2.15.4</jackson.datatype.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
 
         <!-- Code settings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
