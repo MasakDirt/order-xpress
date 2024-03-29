@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ox-clothes
+  config:
+    import: configserver:http://localhost:8888
