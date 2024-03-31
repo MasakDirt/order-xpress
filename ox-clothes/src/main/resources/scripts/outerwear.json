@@ -1,0 +1,41 @@
+[
+  {
+    "productName": "T-Shirt",
+    "price": 19.99,
+    "sex": "MALE",
+    "description": "Comfortable cotton t-shirt for everyday wear.",
+    "availableAmount": 50,
+    "sizes": "M",
+    "colors": [
+      "black",
+      "white"
+    ],
+    "type": "T_SHIRT"
+  },
+  {
+    "productName": "Jeans",
+    "price": 39.99,
+    "sex": "FEMALE",
+    "description": "Classic denim jeans for a stylish look.",
+    "availableAmount": 30,
+    "sizes": "S",
+    "colors": [
+      "blue",
+      "grey"
+    ],
+    "type": "PANTS"
+  },
+  {
+    "productName": "Sweatshirt",
+    "price": 29.99,
+    "sex": "UNISEX",
+    "description": "Warm and cozy sweatshirt for chilly days.",
+    "availableAmount": 20,
+    "sizes": "L",
+    "colors": [
+      "red",
+      "navy"
+    ],
+    "type": "JACKET"
+  }
+]
