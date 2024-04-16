@@ -1,7 +1,9 @@
 package com.micro.flow.repository;
 
 import com.micro.flow.domain.Outerwear;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface OuterwearRepository extends MongoRepository<Outerwear, String> {
+@Repository
+public interface OuterwearRepository extends JpaRepository<Outerwear, String> {
 }

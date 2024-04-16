@@ -1,7 +1,9 @@
 package com.micro.flow.repository;
 
 import com.micro.flow.domain.Socks;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface SocksRepository extends MongoRepository<Socks, String> {
+@Repository
+public interface SocksRepository extends JpaRepository<Socks, String> {
 }
