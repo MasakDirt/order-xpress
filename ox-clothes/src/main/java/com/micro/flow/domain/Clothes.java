@@ -1,56 +1,52 @@
 package com.micro.flow.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
 
 import java.math.BigDecimal;
-import java.util.Objects;
+
+import static jakarta.persistence.EnumType.STRING;
 
 @Getter
 @Setter
-@ToString
+@MappedSuperclass
+@ToString(of = "productName")
+@EqualsAndHashCode(of = "productName")
 public abstract class Clothes {
 
-    @JsonProperty("_id")
-    private String id;
-
+    @NaturalId
     @NotEmpty(message = "Product name must be included!")
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
     @NotNull(message = "Price must be included!")
+    @Column(nullable = false)
     private BigDecimal price;
 
+    @Enumerated(STRING)
+    @Column(nullable = false)
     @NotNull(message = "Sex must be included!")
     private Sex sex;
 
+    @Column(nullable = false)
     @NotEmpty(message = "Describe this product!")
     private String description;
 
+    @Column(nullable = false)
     @Min(value = 0, message = "Amount of clothes cannot be lower than 0!")
     private int availableAmount;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Clothes clothes = (Clothes) o;
-        return Objects.equals(id, clothes.id) && Objects.equals(productName, clothes.productName)
-                && Objects.equals(price, clothes.price) && sex == clothes.sex
-                && Objects.equals(description, clothes.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return 55 * Objects.hash(id, productName, price, sex, description);
-    }
-
     public enum Sex {
-        MALE, FEMALE
+        MALE, FEMALE, UNISEX
     }
 
 }
