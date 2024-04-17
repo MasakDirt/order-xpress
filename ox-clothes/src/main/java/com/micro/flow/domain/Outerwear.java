@@ -8,9 +8,9 @@ import lombok.Setter;
 
 import java.util.List;
 
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.*;
 
 @Getter
 @Setter
@@ -22,20 +22,20 @@ public class Outerwear extends Clothes {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Setter(PRIVATE)
+    @Enumerated(STRING)
     @ElementCollection(fetch = EAGER)
     @NotEmpty(message = "Sizes must be included!")
     @CollectionTable(name = "outerwear_sizes",
             joinColumns = @JoinColumn(name = "outerwear_id"))
     private List<SampleSize> sizes;
 
-    @Setter(PRIVATE)
-    @ElementCollection
+    @ElementCollection(fetch = EAGER)
     @NotEmpty(message = "Colors must be included!")
     @CollectionTable(name = "outerwear_colors",
             joinColumns = @JoinColumn(name = "outerwear_id"))
     private List<String> colors;
 
+    @Enumerated(STRING)
     @NotNull(message = "Type of outerwear must be included!")
     private OuterwearType type;
 
