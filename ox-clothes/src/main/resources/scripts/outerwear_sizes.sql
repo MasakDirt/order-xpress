@@ -1,4 +1,4 @@
-INSERT INTO outerwear_sizes (outerwear_id, size)
+INSERT INTO outerwear_sizes (outerwear_id, sizes)
 VALUES
     (1, 'M'),
     (1, 'L'),

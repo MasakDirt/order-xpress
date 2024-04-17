@@ -1,4 +1,4 @@
-INSERT INTO outerwear_colors (outerwear_id, color)
+INSERT INTO outerwear_colors (outerwear_id, colors)
 VALUES
     (1, 'Black'),
     (1, 'Blue'),

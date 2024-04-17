@@ -1,5 +1,5 @@
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 1, color
 FROM (SELECT 'Red' AS color
       UNION ALL
@@ -9,27 +9,21 @@ FROM (SELECT 'Red' AS color
       UNION ALL
       SELECT 'Yellow') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 2, color
 FROM (SELECT 'Black' AS color
-      UNION ALL
-      SELECT 'White'
       UNION ALL
       SELECT 'Gray'
       UNION ALL
       SELECT 'Pink') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 3, color
 FROM (SELECT 'Orange' AS color
       UNION ALL
-      SELECT 'Purple'
-      UNION ALL
-      SELECT 'Brown'
-      UNION ALL
       SELECT 'Beige') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 4, color
 FROM (SELECT 'Navy' AS color
       UNION ALL
@@ -39,27 +33,17 @@ FROM (SELECT 'Navy' AS color
       UNION ALL
       SELECT 'Olive') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 5, color
 FROM (SELECT 'Cyan' AS color
       UNION ALL
-      SELECT 'Lavender'
-      UNION ALL
-      SELECT 'Teal'
-      UNION ALL
       SELECT 'Peach') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 6, color
-FROM (SELECT 'Burgundy' AS color
-      UNION ALL
-      SELECT 'Slate'
-      UNION ALL
-      SELECT 'Tan'
-      UNION ALL
-      SELECT 'Magenta') AS colors;
+FROM (SELECT 'Burgundy' AS color) AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 7, color
 FROM (SELECT 'Sky Blue' AS color
       UNION ALL
@@ -69,27 +53,21 @@ FROM (SELECT 'Sky Blue' AS color
       UNION ALL
       SELECT 'Indigo') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 8, color
 FROM (SELECT 'Cream' AS color
       UNION ALL
       SELECT 'Salmon'
       UNION ALL
-      SELECT 'Mustard'
-      UNION ALL
       SELECT 'Violet') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 9, color
 FROM (SELECT 'Khaki' AS color
       UNION ALL
-      SELECT 'Coral'
-      UNION ALL
-      SELECT 'Mint'
-      UNION ALL
       SELECT 'Ruby') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 10, color
 FROM (SELECT 'Aqua' AS color
       UNION ALL
@@ -99,17 +77,15 @@ FROM (SELECT 'Aqua' AS color
       UNION ALL
       SELECT 'Amber') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 11, color
 FROM (SELECT 'Silver' AS color
       UNION ALL
       SELECT 'Crimson'
       UNION ALL
-      SELECT 'Saffron'
-      UNION ALL
       SELECT 'Denim') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 12, color
 FROM (SELECT 'Plum' AS color
       UNION ALL
@@ -119,7 +95,7 @@ FROM (SELECT 'Plum' AS color
       UNION ALL
       SELECT 'Bisque') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 13, color
 FROM (SELECT 'Copper' AS color
       UNION ALL
@@ -129,7 +105,7 @@ FROM (SELECT 'Copper' AS color
       UNION ALL
       SELECT 'Ivory') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 14, color
 FROM (SELECT 'Cerulean' AS color
       UNION ALL
@@ -139,57 +115,37 @@ FROM (SELECT 'Cerulean' AS color
       UNION ALL
       SELECT 'Scarlet') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 15, color
 FROM (SELECT 'Steel Blue' AS color
-      UNION ALL
-      SELECT 'Terra Cotta'
       UNION ALL
       SELECT 'Chartreuse'
       UNION ALL
       SELECT 'Rose') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 16, color
-FROM (SELECT 'Cobalt' AS color
-      UNION ALL
-      SELECT 'Mauve'
-      UNION ALL
-      SELECT 'Tangerine'
-      UNION ALL
-      SELECT 'Aquamarine') AS colors;
+FROM (SELECT 'Cobalt' AS color)AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 17, color
-FROM (SELECT 'Celadon' AS color
-      UNION ALL
-      SELECT 'Crimson'
-      UNION ALL
-      SELECT 'Sage'
-      UNION ALL
-      SELECT 'Topaz') AS colors;
+FROM (SELECT 'Celadon' AS color) AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 18, color
 FROM (SELECT 'Electric Blue' AS color
       UNION ALL
-      SELECT 'Cinnabar'
-      UNION ALL
-      SELECT 'Lavender Blush'
-      UNION ALL
       SELECT 'Emerald') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 19, color
 FROM (SELECT 'Mint Cream' AS color
       UNION ALL
       SELECT 'Ruby Red'
       UNION ALL
-      SELECT 'Cornflower Blue'
-      UNION ALL
       SELECT 'Pumpkin') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 20, color
 FROM (SELECT 'Honeydew' AS color
       UNION ALL
@@ -199,13 +155,11 @@ FROM (SELECT 'Honeydew' AS color
       UNION ALL
       SELECT 'Forest Green') AS colors;
 
-INSERT INTO socks_colors (socks_id, color)
+INSERT INTO socks_colors (socks_id, colors)
 SELECT 21, color
 FROM (SELECT 'Medium Purple' AS color
       UNION ALL
       SELECT 'Powder Blue'
-      UNION ALL
-      SELECT 'Light Coral'
       UNION ALL
       SELECT 'Goldenrod') AS colors;
 

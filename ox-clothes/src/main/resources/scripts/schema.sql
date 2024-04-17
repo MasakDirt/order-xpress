@@ -28,8 +28,8 @@ CREATE TABLE socks
 CREATE TABLE socks_colors
 (
     socks_id BIGINT       NOT NULL,
-    color    VARCHAR(255) NOT NULL,
-    PRIMARY KEY (socks_id, color),
+    colors    VARCHAR(255) NOT NULL,
+    PRIMARY KEY (socks_id, colors),
     CONSTRAINT FK_SOCKS_COLORS_SOCKS_ID FOREIGN KEY (socks_id) REFERENCES socks (id)
 );
 
@@ -51,16 +51,16 @@ CREATE TABLE outerwear
 CREATE TABLE outerwear_sizes
 (
     outerwear_id BIGINT       NOT NULL,
-    size         VARCHAR(255) NOT NULL,
-    PRIMARY KEY (outerwear_id, size),
-    CHECK (size IN ('XS', 'S', 'M', 'L', 'XL', 'XXL', 'ONE_SIZE')),
+    sizes         VARCHAR(255) NOT NULL,
+    PRIMARY KEY (outerwear_id, sizes),
+    CHECK (sizes IN ('XS', 'S', 'M', 'L', 'XL', 'XXL', 'ONE_SIZE')),
     CONSTRAINT FK_OUTERWEAR_SIZES_OUTERWEAR_ID FOREIGN KEY (outerwear_id) REFERENCES outerwear (id)
 );
 
 CREATE TABLE outerwear_colors
 (
     outerwear_id BIGINT       NOT NULL,
-    color        VARCHAR(255) NOT NULL,
-    PRIMARY KEY (outerwear_id, color),
+    colors        VARCHAR(255) NOT NULL,
+    PRIMARY KEY (outerwear_id, colors),
     CONSTRAINT FK_OUTERWEAR_COLORS_OUTERWEAR_ID FOREIGN KEY (outerwear_id) REFERENCES outerwear (id)
 );
