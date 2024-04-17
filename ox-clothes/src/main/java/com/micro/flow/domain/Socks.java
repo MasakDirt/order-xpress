@@ -8,9 +8,9 @@ import lombok.Setter;
 
 import java.util.List;
 
-import static jakarta.persistence.EnumType.*;
-import static jakarta.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
@@ -26,8 +26,7 @@ public class Socks extends Clothes {
     @Column(nullable = false, updatable = false)
     private SampleSize size;
 
-    @Setter(PRIVATE)
-    @ElementCollection
+    @ElementCollection(fetch = EAGER)
     @NotEmpty(message = "Colors must be include!")
     @CollectionTable(name = "socks_colors",
             joinColumns = @JoinColumn(name = "socks_id"))
