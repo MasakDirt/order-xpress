@@ -31,3 +31,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     enabled: true
+
+mapstruct:
+  processor:
+    default-component-model: spring

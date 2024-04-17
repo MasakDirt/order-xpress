@@ -1,44 +1,43 @@
 package com.micro.flow.domain;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-import java.util.Objects;
+
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
-@ToString
-@Document("outerwear")
+@Entity
+@Table(name = "outerwear")
 public class Outerwear extends Clothes {
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
+    @Enumerated(STRING)
+    @ElementCollection(fetch = EAGER)
     @NotEmpty(message = "Sizes must be included!")
+    @CollectionTable(name = "outerwear_sizes",
+            joinColumns = @JoinColumn(name = "outerwear_id"))
     private List<SampleSize> sizes;
 
+    @ElementCollection(fetch = EAGER)
     @NotEmpty(message = "Colors must be included!")
+    @CollectionTable(name = "outerwear_colors",
+            joinColumns = @JoinColumn(name = "outerwear_id"))
     private List<String> colors;
 
+    @Enumerated(STRING)
     @NotNull(message = "Type of outerwear must be included!")
     private OuterwearType type;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Outerwear outerwear = (Outerwear) o;
-        return Objects.equals(sizes, outerwear.sizes) &&
-                Objects.equals(colors, outerwear.colors) && type == outerwear.type;
-    }
-
-    @Override
-    public int hashCode() {
-        return 17 * Objects.hash(super.hashCode(), sizes, colors, type);
-    }
 
     public enum OuterwearType {
         T_SHIRT, PANTS, JACKET

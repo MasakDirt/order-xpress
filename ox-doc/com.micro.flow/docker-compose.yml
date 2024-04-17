@@ -29,24 +29,30 @@ services:
       - postgres
     restart: unless-stopped
 
-  mongodb:
-    image: mongo
-    container_name: ox-mongodb
-    ports:
-      - "27017:27017"
+  mysql:
+    image: mysql
+    container_name: ox-mysql
+    restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: 1111
+      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1111
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
 
-  mongo-express:
-    image: mongo-express
-    container_name: ox-mongo-express
-    ports:
-      - "8081:8081"
+  schema-creator:
+    image: mysql
+    volumes:
+      - ./create_schema.sh:/usr/local/bin/create_schema.sh:ro
+    command: [ "bash", "-c", "/usr/local/bin/create_schema.sh" ]
     environment:
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=1111
+      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1111
+    depends_on:
+      - mysql
 
 networks:
   postgres:
@@ -57,3 +63,4 @@ networks:
 volumes:
   postgres:
   pgadmin:
+  mysql_data:

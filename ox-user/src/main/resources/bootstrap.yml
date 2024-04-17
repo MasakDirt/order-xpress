@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: ox-user
-  cloud:
-    config:
-      uri: http://localhost:8888

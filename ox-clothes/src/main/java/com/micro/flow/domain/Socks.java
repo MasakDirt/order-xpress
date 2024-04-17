@@ -1,38 +1,35 @@
 package com.micro.flow.domain;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-import java.util.Objects;
+
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
-@ToString
-@Document("socks")
+@Entity
+@Table(name = "socks")
 public class Socks extends Clothes {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
+    @Enumerated(STRING)
     @NotNull(message = "Size must be include!")
-    private final SampleSize size = SampleSize.ONE_SIZE;
+    @Column(nullable = false, updatable = false)
+    private SampleSize size;
 
+    @ElementCollection(fetch = EAGER)
     @NotEmpty(message = "Colors must be include!")
+    @CollectionTable(name = "socks_colors",
+            joinColumns = @JoinColumn(name = "socks_id"))
     private List<String> colors;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Socks socks = (Socks) o;
-        return size == socks.size && Objects.equals(colors, socks.colors);
-    }
-
-    @Override
-    public int hashCode() {
-        return 21 * Objects.hash(size, colors);
-    }
 
 }

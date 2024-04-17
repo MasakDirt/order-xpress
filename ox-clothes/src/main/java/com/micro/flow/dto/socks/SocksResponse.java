@@ -1,52 +1,48 @@
-package com.micro.flow.domain;
+package com.micro.flow.dto.socks;
 
-import jakarta.persistence.Column;
+import com.micro.flow.domain.Clothes;
+import com.micro.flow.domain.SampleSize;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.NaturalId;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static jakarta.persistence.EnumType.STRING;
 
+@Data
 @Getter
 @Setter
-@MappedSuperclass
-@ToString(of = "productName")
-@EqualsAndHashCode(of = "productName")
-public abstract class Clothes {
+@Builder
+@EqualsAndHashCode
+@ToString
+public class SocksResponse {
+    private Long id;
 
-    @NaturalId
     @NotEmpty(message = "Product name must be included!")
-    @Column(name = "product_name", nullable = false)
     private String productName;
 
     @NotNull(message = "Price must be included!")
-    @Column(nullable = false)
     private BigDecimal price;
 
     @Enumerated(STRING)
-    @Column(nullable = false)
     @NotNull(message = "Sex must be included!")
-    private Sex sex;
+    private Clothes.Sex sex;
 
-    @Column(nullable = false)
     @NotEmpty(message = "Describe this product!")
     private String description;
 
-    @Column(nullable = false)
     @Min(value = 0, message = "Amount of clothes cannot be lower than 0!")
     private int availableAmount;
 
-    public enum Sex {
-        MALE, FEMALE, UNISEX
-    }
+    @Enumerated(STRING)
+    @NotNull(message = "Size must be include!")
+    private SampleSize size;
+
+    @NotEmpty(message = "Colors must be include!")
+    private List<String> colors;
 
 }

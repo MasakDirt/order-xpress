@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,13 +15,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Objects;
 
 @Entity
 @Setter
 @Getter
 @Table(name = "users")
-@ToString
+@EqualsAndHashCode(of = "email")
+@ToString(of = "email")
 public class User implements UserDetails {
 
     @Id
@@ -35,7 +36,7 @@ public class User implements UserDetails {
     @NotNull(message = "Must be a valid e-mail address")
     @Pattern(regexp = "[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}",
             message = "Must be a valid e-mail address")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, updatable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -49,23 +50,6 @@ public class User implements UserDetails {
 
     public enum Role {
         ADMIN, USER, VISITOR
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password) &&
-                role == user.role;
-    }
-
-    @Override
-    public int hashCode() {
-        return 31 * Objects.hash(id, username, email, password, role);
     }
 
     @Override

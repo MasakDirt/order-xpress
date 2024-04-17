@@ -1,52 +1,52 @@
-package com.micro.flow.domain;
+package com.micro.flow.dto.outerwear;
 
-import jakarta.persistence.Column;
+import com.micro.flow.domain.Outerwear;
+import com.micro.flow.domain.SampleSize;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.NaturalId;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static jakarta.persistence.EnumType.STRING;
 
+@Data
+@Builder
 @Getter
 @Setter
-@MappedSuperclass
-@ToString(of = "productName")
-@EqualsAndHashCode(of = "productName")
-public abstract class Clothes {
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class OuterwearCreateRequest {
 
-    @NaturalId
     @NotEmpty(message = "Product name must be included!")
-    @Column(name = "product_name", nullable = false)
     private String productName;
 
     @NotNull(message = "Price must be included!")
-    @Column(nullable = false)
     private BigDecimal price;
 
-    @Enumerated(STRING)
-    @Column(nullable = false)
     @NotNull(message = "Sex must be included!")
-    private Sex sex;
+    private String sex;
 
-    @Column(nullable = false)
     @NotEmpty(message = "Describe this product!")
     private String description;
 
-    @Column(nullable = false)
     @Min(value = 0, message = "Amount of clothes cannot be lower than 0!")
     private int availableAmount;
 
-    public enum Sex {
-        MALE, FEMALE, UNISEX
-    }
+    @Enumerated(STRING)
+    @NotNull(message = "Sizes must be included!")
+    private List<SampleSize> sizes;
+
+    @NotNull(message = "Colors must be included!")
+    private List<String> colors;
+
+    @Enumerated(STRING)
+    @NotNull(message = "Type of outerwear must be included!")
+    private Outerwear.OuterwearType type;
 
 }
