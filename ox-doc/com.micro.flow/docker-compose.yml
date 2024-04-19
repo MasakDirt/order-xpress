@@ -44,15 +44,30 @@ services:
 
   schema-creator:
     image: mysql
+    container_name: ox-schema-creator-mysql
     volumes:
-      - ./create_schema.sh:/usr/local/bin/create_schema.sh:ro
-    command: [ "bash", "-c", "/usr/local/bin/create_schema.sh" ]
+      - ./init_mysql.sh:/usr/local/bin/init_mysql.sh:ro
+    command: [ "bash", "-c", "/usr/local/bin/init_mysql.sh" ]
     environment:
       MYSQL_ROOT_PASSWORD: 1111
       MYSQL_USER: admin
       MYSQL_PASSWORD: 1111
     depends_on:
       - mysql
+
+  cassandra:
+    image: cassandra
+    container_name: ox-cassandra
+    environment:
+      - CASSANDRA_USER=user
+      - CASSANDRA_PASSWORD=1234
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./init_cassandra.sh:/init_cassandra.sh
+    entrypoint: [ "/init_cassandra.sh" ]
+    command: [ "cassandra", "-f" ]
+
 
 networks:
   postgres:
