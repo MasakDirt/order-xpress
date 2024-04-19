@@ -8,7 +8,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ox
     password: 1234
-    url: jdbc:postgresql://localhost:5432/ox
+    url: jdbc:postgresql://localhost:5432/ox_user
   jpa:
     hibernate:
       ddl-auto: none

@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1111
-    url: jdbc:mysql://localhost:3306/ox
+    url: jdbc:mysql://localhost:3306/ox_clothes
   jpa:
     database: MySQL
     hibernate:
@@ -22,10 +22,6 @@ spring:
         - classpath*:/scripts/socks_colors.sql
         - classpath*:/scripts/outerwear_sizes.sql
         - classpath*:/scripts/outerwear_colors.sql
-
-  jwt:
-    inspiration:
-      ms: 24235436574879
 
 springdoc:
   swagger-ui.path: /swagger-ui-custom.html
