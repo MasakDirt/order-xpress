@@ -1,40 +1,9 @@
-ALTER TABLE socks_colors
-    DROP CONSTRAINT FK_SOCKS_COLORS_SOCKS_ID;
-ALTER TABLE outerwear_sizes
-    DROP CONSTRAINT FK_OUTERWEAR_SIZES_OUTERWEAR_ID;
-ALTER TABLE outerwear_colors
-    DROP CONSTRAINT FK_OUTERWEAR_COLORS_OUTERWEAR_ID;
-
-DROP TABLE IF EXISTS socks;
-DROP TABLE IF EXISTS socks_colors;
-DROP TABLE IF EXISTS outerwear;
-DROP TABLE IF EXISTS outerwear_sizes;
-DROP TABLE IF EXISTS outerwear_colors;
-
-CREATE TABLE socks
-(
-    id               BIGINT AUTO_INCREMENT,
-    product_name     VARCHAR(255)   NOT NULL UNIQUE,
-    price            DECIMAL(19, 2) NOT NULL,
-    sex              VARCHAR(255)   NOT NULL,
-    description      VARCHAR(255)   NOT NULL,
-    available_amount INT            NOT NULL,
-    size             VARCHAR(255)   NOT NULL,
-    PRIMARY KEY (id),
-    CHECK (sex IN ('MALE', 'FEMALE', 'UNISEX')),
-    CHECK (size IN ('XS', 'S', 'M', 'L', 'XL', 'XXL', 'ONE_SIZE'))
-);
-
-CREATE TABLE socks_colors
-(
-    socks_id BIGINT       NOT NULL,
-    colors    VARCHAR(255) NOT NULL,
-    PRIMARY KEY (socks_id, colors),
-    CONSTRAINT FK_SOCKS_COLORS_SOCKS_ID FOREIGN KEY (socks_id) REFERENCES socks (id)
-);
+DROP TABLE IF EXISTS clothes;
+DROP TABLE IF EXISTS clothes_sizes;
+DROP TABLE IF EXISTS clothes_colors;
 
 
-CREATE TABLE outerwear
+CREATE TABLE clothes
 (
     id               BIGINT AUTO_INCREMENT,
     product_name     VARCHAR(255)   NOT NULL UNIQUE,
@@ -45,22 +14,27 @@ CREATE TABLE outerwear
     type             VARCHAR(255)   NOT NULL,
     PRIMARY KEY (id),
     CHECK (sex IN ('MALE', 'FEMALE', 'UNISEX')),
-    CHECK (type IN ('T_SHIRT', 'PANTS', 'JACKET'))
+    CHECK (type IN ('T_SHIRT', 'PANTS', 'JACKET', 'SOCKS'))
 );
 
-CREATE TABLE outerwear_sizes
+CREATE TABLE clothes_sizes
 (
-    outerwear_id BIGINT       NOT NULL,
-    sizes         VARCHAR(255) NOT NULL,
-    PRIMARY KEY (outerwear_id, sizes),
+    clothes_id BIGINT       NOT NULL,
+    sizes      VARCHAR(255) NOT NULL,
+    PRIMARY KEY (clothes_id, sizes),
     CHECK (sizes IN ('XS', 'S', 'M', 'L', 'XL', 'XXL', 'ONE_SIZE')),
-    CONSTRAINT FK_OUTERWEAR_SIZES_OUTERWEAR_ID FOREIGN KEY (outerwear_id) REFERENCES outerwear (id)
+    CONSTRAINT FK_CLOTHES_SIZES_CLOTHES_ID FOREIGN KEY (clothes_id) REFERENCES clothes (id)
 );
 
-CREATE TABLE outerwear_colors
+CREATE TABLE clothes_colors
 (
-    outerwear_id BIGINT       NOT NULL,
-    colors        VARCHAR(255) NOT NULL,
-    PRIMARY KEY (outerwear_id, colors),
-    CONSTRAINT FK_OUTERWEAR_COLORS_OUTERWEAR_ID FOREIGN KEY (outerwear_id) REFERENCES outerwear (id)
+    clothes_id BIGINT       NOT NULL,
+    colors     VARCHAR(255) NOT NULL,
+    PRIMARY KEY (clothes_id, colors),
+    CONSTRAINT FK_CLOTHES_COLORS_CLOTHES_ID FOREIGN KEY (clothes_id) REFERENCES clothes (id)
 );
+
+ALTER TABLE clothes_sizes
+    DROP CONSTRAINT FK_CLOTHES_SIZES_CLOTHES_ID;
+ALTER TABLE clothes_colors
+    DROP CONSTRAINT FK_CLOTHES_COLORS_CLOTHES_ID;
