@@ -1,0 +1,46 @@
+server:
+  port: 8060
+
+spring:
+  application:
+    name: ox-bag
+  cassandra:
+    keyspace-name: ox_bag
+    contact-points: localhost
+    port: 9042
+    username: user
+    password: 1234
+    schema-action: CREATE_IF_NOT_EXISTS
+    local-datacenter: datacenter1
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
+
+springdoc:
+  swagger-ui.path: /swagger-ui-custom.html
+  swagger-ui:
+    operationsSorter: method
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+    enabled: true
+
+mapstruct:
+  processor:
+    default-component-model: spring
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ox-user:
+        minimum-number-of-calls: 10
+        slow-call-duration-threshold:
+          seconds: 3
+        failure-rate-threshold: 55

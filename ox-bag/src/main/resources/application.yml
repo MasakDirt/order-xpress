@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ox-bag
+  config:
+    import: configserver:http://localhost:8888
