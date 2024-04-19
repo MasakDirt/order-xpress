@@ -1,4 +1,4 @@
-package com.micro.flow.dto.outerwear;
+package com.micro.flow.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class OuterwearResponse {
+public class ClothesResponse {
 
     private Long id;
 
