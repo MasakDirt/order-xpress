@@ -1,7 +1,7 @@
-package com.micro.flow.dto.outerwear;
+package com.micro.flow.dto;
 
-import com.micro.flow.domain.Outerwear;
 import com.micro.flow.domain.SampleSize;
+import com.micro.flow.domain.Type;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,7 +21,7 @@ import static jakarta.persistence.EnumType.STRING;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OuterwearCreateRequest {
+public class ClothesCreateRequest {
 
     @NotEmpty(message = "Product name must be included!")
     private String productName;
@@ -47,6 +47,6 @@ public class OuterwearCreateRequest {
 
     @Enumerated(STRING)
     @NotNull(message = "Type of outerwear must be included!")
-    private Outerwear.OuterwearType type;
+    private Type type;
 
 }
