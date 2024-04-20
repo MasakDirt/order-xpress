@@ -1,6 +1,7 @@
 package com.micro.flow.domain;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,8 +28,9 @@ public class Bag {
     @Min(value = 0, message = "Total price cannot be lower that 0!")
     private BigDecimal totalPrice;
 
-    @Column
-    private String username;
+    @Column(value = "user_email")
+    @NotEmpty(message = "Bag must contain owner!")
+    private String userEmail;
 
     @Column(value = "clothes_id's")
     private List<Long> clothesIds;
