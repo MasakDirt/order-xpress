@@ -14,6 +14,8 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClothesResponse {
 
     private Long id;
