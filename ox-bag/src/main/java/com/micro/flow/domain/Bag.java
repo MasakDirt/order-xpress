@@ -3,6 +3,7 @@ package com.micro.flow.domain;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +12,8 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -32,8 +34,9 @@ public class Bag {
     @NotEmpty(message = "Bag must contain owner!")
     private String userEmail;
 
+    @Setter(AccessLevel.PRIVATE)
     @Column(value = "clothes_id's")
-    private List<Long> clothesIds;
+    private Set<Long> clothesIds;
 
     public Bag() {
         this.id = UUID.randomUUID();
@@ -50,6 +53,30 @@ public class Bag {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public Bag updateClothesIdAndGet(Long id) {
+        checkClothesIdsForEmpty();
+        this.clothesIds.add(id);
+        return this;
+    }
+
+    private void checkClothesIdsForEmpty() {
+        if (isClothesEmpty()) {
+            this.clothesIds = new HashSet<>();
+        }
+    }
+
+    public Bag deleteClothesIdAndGet(Long clothesIds) {
+        if (isClothesEmpty()) {
+            return this;
+        }
+        this.clothesIds.remove(clothesIds);
+        return this;
+    }
+
+    private boolean isClothesEmpty() {
+        return this.clothesIds == null || this.clothesIds.isEmpty();
     }
 
 }
