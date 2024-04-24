@@ -1,6 +1,7 @@
 package com.micro.flow.config;
 
 import com.micro.flow.client.ClothesServiceFeignClients;
+import com.micro.flow.client.UserServiceFeignClient;
 import com.micro.flow.mapper.BagMapper;
 import com.micro.flow.mapper.impl.BagMapperImpl;
 import com.micro.flow.repository.BagRepository;
@@ -19,8 +20,9 @@ public class BagConfig {
     }
 
     @Bean
-    public BagMapper bagMapper() {
-        return new BagMapperImpl();
+    public BagMapper bagMapper(ClothesServiceFeignClients clothesServiceFeignClients,
+                               UserServiceFeignClient userServiceFeignClient) {
+        return new BagMapperImpl(userServiceFeignClient, clothesServiceFeignClients);
     }
 
 }
