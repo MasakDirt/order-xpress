@@ -19,12 +19,12 @@ public interface ClothesServiceFeignClients {
     List<ClothesResponse> getClothesByIds(@PathVariable("ids") Set<Long> ids);
 
     default List<ClothesResponse> fallbackClothes(Set<Long> ids, Throwable throwable) {
-        return List.of(getFallbackClothesResponse(ids), getFallbackClothesResponse(ids));
+        return List.of(getFallbackClothesResponse(), getFallbackClothesResponse());
     }
 
-    private ClothesResponse getFallbackClothesResponse(Set<Long> ids) {
+    private ClothesResponse getFallbackClothesResponse() {
         return ClothesResponse.builder()
-                .id(new Random().nextLong(ids.size() - 1))
+                .id(new Random().nextLong(100))
                 .sex("HIDDEN")
                 .price(BigDecimal.valueOf(-1.00))
                 .availableColors(-1)
