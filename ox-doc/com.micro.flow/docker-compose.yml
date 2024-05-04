@@ -3,7 +3,7 @@ services:
     container_name: postgres-ox
     image: postgres
     environment:
-      POSTGRES_USER: ox
+      POSTGRES_USER: ox_user
       POSTGRES_PASSWORD: 1234
       PGDATA: /data/postgres
     volumes:
@@ -34,9 +34,9 @@ services:
     container_name: ox-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_ROOT_PASSWORD: 1234
       MYSQL_USER: admin
-      MYSQL_PASSWORD: 1111
+      MYSQL_PASSWORD: 1234
     ports:
       - "3306:3306"
     volumes:
@@ -46,8 +46,10 @@ services:
     image: mysql
     container_name: ox-schema-creator-mysql
     volumes:
-      - ./init_mysql.sh:/usr/local/bin/init_mysql.sh:ro
-    command: [ "bash", "-c", "/usr/local/bin/init_mysql.sh" ]
+      - ./init_mysql.sh:/init_mysql.sh
+    entrypoint: [ "/bin/bash", "-c" ]
+    command:
+      - "chmod +x /init_mysql.sh && /init_mysql.sh && mysql -f"
     environment:
       MYSQL_ROOT_PASSWORD: 1111
       MYSQL_USER: admin
@@ -65,9 +67,9 @@ services:
       - "9042:9042"
     volumes:
       - ./init_cassandra.sh:/init_cassandra.sh
-    entrypoint: [ "/init_cassandra.sh" ]
-    command: [ "cassandra", "-f" ]
-
+    entrypoint: [ "/bin/bash", "-c" ]
+    command:
+      - "chmod +x /init_cassandra.sh && /init_cassandra.sh && cassandra -f"
 
 networks:
   postgres:
