@@ -1,5 +1,9 @@
+server:
+  port: 8060
+
 spring:
-  application:
-    name: ox-bag
   config:
-    import: configserver:http://localhost:8888
+    import: "optional:configserver:"
+  cloud:
+    config:
+      name: ox-bag

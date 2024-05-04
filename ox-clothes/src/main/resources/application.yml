@@ -1,5 +1,9 @@
+server:
+  port: 8070
+
 spring:
-  application:
-    name: ox-clothes
   config:
-    import: configserver:http://localhost:8888
+    import: "optional:configserver:"
+  cloud:
+    config:
+      name: ox-clothes
