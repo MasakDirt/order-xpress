@@ -13,9 +13,9 @@ public interface UserServiceFeignClient {
     @CircuitBreaker(name = "ox-user", fallbackMethod = "fallbackUser")
     UserResponse getByEmail(@PathVariable("email") String email);
 
-    private UserResponse fallbackUser(String userEmail, Throwable throwable) {
+    default UserResponse fallbackUser(String email, Throwable throwable) {
         return UserResponse.builder()
-                .email(userEmail)
+                .email(email)
                 .role("HIDDEN")
                 .username("USERNAME")
                 .id(0L)
