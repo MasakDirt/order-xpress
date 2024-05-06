@@ -1,5 +1,9 @@
+server:
+  port: 8761
+
 spring:
-  application:
-    name: ox-eureka
   config:
-    import: configserver:http://localhost:8888
+    import: "optional:configserver:"
+  cloud:
+    config:
+      name: ox-eureka

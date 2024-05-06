@@ -1,11 +1,8 @@
 package com.micro.flow.config;
 
-import com.micro.flow.repository.OuterwearRepository;
-import com.micro.flow.repository.SocksRepository;
-import com.micro.flow.service.OuterwearService;
-import com.micro.flow.service.SocksService;
-import com.micro.flow.service.impl.OuterwearServiceImpl;
-import com.micro.flow.service.impl.SocksServiceImpl;
+import com.micro.flow.repository.ClothesRepository;
+import com.micro.flow.service.ClothesService;
+import com.micro.flow.service.impl.ClothesServiceImpl;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +12,8 @@ import org.springframework.context.annotation.Configuration;
 public class ClothesConfig {
 
     @Bean
-    public SocksService socksService(SocksRepository socksRepository) {
-        return new SocksServiceImpl(socksRepository);
-    }
-
-    @Bean
-    public OuterwearService outerwearService(OuterwearRepository outerwearRepository) {
-        return new OuterwearServiceImpl(outerwearRepository);
+    public ClothesService clothesService(ClothesRepository clothesRepository) {
+        return new ClothesServiceImpl(clothesRepository);
     }
 
 }
