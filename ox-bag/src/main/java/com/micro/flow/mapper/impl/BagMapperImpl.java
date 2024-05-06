@@ -12,9 +12,10 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 import java.util.Set;
 
+import static java.math.BigDecimal.ZERO;
+
 @AllArgsConstructor
 public class BagMapperImpl implements BagMapper {
-
     private final UserServiceFeignClient userServiceFeignClient;
     private final ClothesServiceFeignClients clothesServiceFeignClients;
 
@@ -26,7 +27,8 @@ public class BagMapperImpl implements BagMapper {
             bagResponse.id(bag.getId());
         }
 
-        bagResponse.totalPrice(bag.getTotalPrice());
+        var totalPrice = bag.getTotalPrice();
+        bagResponse.totalPrice(totalPrice == null ? ZERO : totalPrice);
 
         if (bag.getUserEmail() != null && !bag.getUserEmail().trim().isEmpty()) {
             bagResponse.userResponse(getUserResponse(bag.getUserEmail()));
