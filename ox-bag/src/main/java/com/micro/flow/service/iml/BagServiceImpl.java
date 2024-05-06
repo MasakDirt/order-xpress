@@ -7,12 +7,14 @@ import com.micro.flow.repository.BagRepository;
 import com.micro.flow.service.BagService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
+@Service
 @AllArgsConstructor
 public class BagServiceImpl implements BagService {
     private final BagRepository bagRepository;
