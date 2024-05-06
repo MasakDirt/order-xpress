@@ -25,7 +25,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long id) {
         var user = userService.readById(id);
-        log.info("GET-USER-ID user === {}, timestamp == {}",
+        log.debug("GET-USER-ID user === {}, timestamp == {}",
                 user.getEmail(), LocalDateTime.now());
 
         return ok(userMapper.getUserResponseFromDomain(user));
@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/e/{email}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable("email") String email) {
         var user = userService.readByEmail(email);
-        log.info("GET-USER-EMAIL user === {}, timestamp == {}",
+        log.debug("GET-USER-EMAIL === user == {}, timestamp == {}",
                 user.getEmail(), LocalDateTime.now());
 
         return ok(userMapper.getUserResponseFromDomain(user));
@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponse> createUserWithBag(@RequestBody @Valid UserCreateRequest createRequest) {
         var user = userService.createWithBag(userMapper.getUserFromCreateRequest(createRequest));
-        log.info("POST-USER created user === {}", user);
+        log.debug("POST-USER === created user == {}", user);
 
         return ok(userMapper.getUserResponseFromDomain(user));
     }
