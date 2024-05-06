@@ -34,19 +34,20 @@ public class User implements UserDetails {
     private String username;
 
     @NaturalId
-    @NotNull(message = "Must be a valid e-mail address")
+    @NotNull(message = "Must be a valid e-mail address!")
     @Pattern(regexp = "[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}",
-            message = "Must be a valid e-mail address")
+            message = "Must be a valid e-mail address!")
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
-    @NotEmpty(message = "Fill in your password please!")
+    @NotEmpty(message = "Password must be included!")
     private String password;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
+    @NotNull(message = "Your role is null, sorry it's our " +
+            "mistake we are already working on it!")
     private Role role;
 
     public enum Role {
@@ -79,7 +80,7 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User setRoleAndEncodePasswordAndGet(Role role, PasswordEncoder passwordEncoder) {
+    public User setRoleAndEncodePassword(Role role, PasswordEncoder passwordEncoder) {
         this.role = role;
         this.password = passwordEncoder.encode(password);
         return this;
