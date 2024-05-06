@@ -33,7 +33,7 @@ public class ClothesController {
             @RequestParam(name = "properties",
                     defaultValue = "availableAmount") String... properties) {
         var clothes = clothesService.getAllBySearch(page, order, searchValue, properties);
-        log.info("GET-CLOTHES-ALL");
+        log.debug("GET-CLOTHES-ALL");
 
         return ok(clothesMapper.getShortenResponseListFromDomainPage(clothes));
     }
@@ -41,7 +41,7 @@ public class ClothesController {
     @GetMapping("/for-bag/{ids}")
     public ResponseEntity<List<ShortenClothesResponse>> getAllByIds(@PathVariable("ids") List<Long> ids) {
         var clothes = clothesService.getAllByIds(ids);
-        log.info("GET-CLOTHES by ids: {}", ids);
+        log.debug("GET-CLOTHES by ids: {}", ids);
 
         return ok(clothesMapper.getShortenResponseListFromDomain(clothes));
     }
@@ -49,16 +49,16 @@ public class ClothesController {
     @GetMapping("/{id}")
     public ResponseEntity<ClothesResponse> getById(@PathVariable("id") Long id) {
         var outerwear = clothesService.getOneById(id);
-        log.info("GET-CLOTHES by id: {}", id);
+        log.debug("GET-CLOTHES by id: {}", id);
 
         return ok(clothesMapper.getResponseFromDomain(outerwear));
     }
 
     @PostMapping
-    public ResponseEntity<ClothesResponse> createOuterwear(
+    public ResponseEntity<ClothesResponse> createClothes(
             @RequestBody @Valid ClothesCreateRequest createRequest) {
         var created = clothesService.create(clothesMapper.getDomainFromCreateRequest(createRequest));
-        log.info("CREATE-CLOTHES: {}", created);
+        log.debug("CREATE-CLOTHES: {}", created);
 
         return status(HttpStatus.CREATED)
                 .body(clothesMapper.getResponseFromDomain(created));
@@ -68,7 +68,7 @@ public class ClothesController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         clothesService.delete(id);
-        log.info("DELETE-CLOTHES with id: {}", id);
+        log.debug("DELETE-CLOTHES with id: {}", id);
     }
 
 }
