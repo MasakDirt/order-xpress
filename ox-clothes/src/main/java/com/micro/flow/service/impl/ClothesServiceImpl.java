@@ -5,12 +5,14 @@ import com.micro.flow.repository.ClothesRepository;
 import com.micro.flow.service.ClothesService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -18,23 +20,24 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 import static org.springframework.data.domain.Sort.by;
 
+@Slf4j
+@Service
 @AllArgsConstructor
 public class ClothesServiceImpl implements ClothesService {
     private final ClothesRepository clothesRepository;
 
     @Override
-    @Cacheable("getAllSortedClothes")
     public Page<Clothes> getAllBySearch(int page, String order,
                                         String searchValue, String... properties) {
-        final int pageSize = 4;
-        return clothesRepository.findBySearchContaining(
-                searchValue, getPageRequest(page, pageSize, order, properties));
+        var clothesPage = clothesRepository.findBySearchContaining(
+                searchValue, getPageRequest(page, order, properties));
+        log.info("Getting clothes by search {} and properties {}", searchValue, properties);
+        return clothesPage;
     }
 
-    private PageRequest getPageRequest(int page, int pageSize,
-                                       String order, String[] properties) {
-        return PageRequest.of(page, pageSize,
-                by(getDirection(order), properties));
+    private PageRequest getPageRequest(int page, String order, String[] properties) {
+        final int pageSize = 4;
+        return PageRequest.of(page, pageSize, by(getDirection(order), properties));
     }
 
     private Sort.Direction getDirection(String order) {
@@ -48,25 +51,32 @@ public class ClothesServiceImpl implements ClothesService {
     @Override
     @Cacheable("getAllByIds")
     public List<Clothes> getAllByIds(List<Long> ids) {
-        return clothesRepository.findAllById(ids);
+        var clothesByIds = clothesRepository.findAllById(ids);
+        log.info("Getting clothes by ids {}", ids);
+        return clothesByIds;
     }
 
     @Override
     public Clothes getOneById(Long id) {
-        return clothesRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Outerwear not found"));
+        var clothes = clothesRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Outerwear not found"));
+        log.info("Getting clothes by id {}", id);
+        return clothes;
     }
 
     @Override
-    @CachePut(value = {"getAllSortedClothes", "getAllByIds"})
+    @CachePut(value = "getAllByIds", key = "#clothes.id")
     public Clothes create(Clothes clothes) {
-        return clothesRepository.save(clothes);
+        var created = clothesRepository.save(clothes);
+        log.info("Saving clothes {}", created);
+        return created;
     }
 
     @Override
-    @CacheEvict(value = {"getAllSortedClothes", "getAllByIds"}, allEntries = true)
+    @CacheEvict(value = "getAllByIds", key = "#id")
     public void delete(Long id) {
         clothesRepository.delete(getOneById(id));
+        log.info("Deleted clothes {}", id);
     }
 
 }
