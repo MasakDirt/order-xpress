@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.Indexed;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -31,6 +32,7 @@ public class Bag {
     private BigDecimal totalPrice;
 
     @Column(value = "user_email")
+    @Indexed(value = "idx_user_email")
     @NotEmpty(message = "Bag must contain owner!")
     private String userEmail;
 
@@ -56,22 +58,21 @@ public class Bag {
     }
 
     public Bag updateClothesIdAndGet(Long id) {
-        checkClothesIdsForEmpty();
+        setNewHashSetForClothesIdsIfItEmpty();
         this.clothesIds.add(id);
         return this;
     }
 
-    private void checkClothesIdsForEmpty() {
+    private void setNewHashSetForClothesIdsIfItEmpty() {
         if (isClothesEmpty()) {
             this.clothesIds = new HashSet<>();
         }
     }
 
     public Bag deleteClothesIdAndGet(Long clothesIds) {
-        if (isClothesEmpty()) {
-            return this;
+        if (!isClothesEmpty()) {
+            this.clothesIds.remove(clothesIds);
         }
-        this.clothesIds.remove(clothesIds);
         return this;
     }
 
