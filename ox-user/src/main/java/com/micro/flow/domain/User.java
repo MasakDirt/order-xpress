@@ -50,6 +50,9 @@ public class User implements UserDetails {
             "mistake we are already working on it!")
     private Role role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Account account;
+
     public enum Role {
         ADMIN, USER, VISITOR
     }
