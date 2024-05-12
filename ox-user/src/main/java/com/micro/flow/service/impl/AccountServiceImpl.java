@@ -82,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void removeClothesFromBagAfterBuy(UUID bagId) {
-        bagServiceFeignClient.removeClothes(bagId);
+        bagServiceFeignClient.resetClothes(bagId);
         log.info("Remove clothes from bag {}", bagId);
     }
 }
