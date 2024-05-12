@@ -53,26 +53,25 @@ public class Account {
     }
 
     private void ifReplenishForSmallerThanZeroThrowExc(BigDecimal replenishFor) {
-        if (isBalanceSmallerThanZero(replenishFor)) {
+        if (isAmountSmallerThanZero(replenishFor)) {
             throw new IllegalArgumentException("The replenish amount must be greater than zero!");
         }
     }
 
     public void debit(BigDecimal totalPrice) {
-//     final BigDecimal copyBalance = this.balance;  version for improving!!!
-        final BigDecimal debitValue = this.balance.subtract(totalPrice); // todo: check if it right!
+        final BigDecimal debitValue = this.balance.subtract(totalPrice);
         tryToDebit(debitValue);
         this.balance = debitValue;
     }
 
     private void tryToDebit(BigDecimal debitValue) {
-        if (isBalanceSmallerThanZero(debitValue)) {
+        if (isAmountSmallerThanZero(debitValue)) {
             throw new BalanceException("Your balance hasn't enough money! " +
                     "Please replenish it to buy clothes.");
         }
     }
 
-    private boolean isBalanceSmallerThanZero(BigDecimal balance) {
+    private boolean isAmountSmallerThanZero(BigDecimal balance) {
         return balance.compareTo(BigDecimal.ZERO) < 0;
     }
 
