@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Slf4j
@@ -52,6 +53,20 @@ public class BagController {
         log.debug("DELETE-BAG === id - {} == clothes: {}", id, clothesId);
 
         return ResponseEntity.ok("You deleted clothe from your bag!");
+    }
+
+    @GetMapping("/{id}/total-price")
+    public ResponseEntity<BigDecimal> getTotalPrice(@PathVariable("id") UUID id) {
+        var totalPrice = bagService.getTotalPrice(id);
+        log.debug("GET-BAG-TOTAL_PRICE: id - {}", id);
+
+        return ResponseEntity.ok(totalPrice);
+    }
+
+    @PostMapping("/{id}/remove-clothes")
+    public void removeClothes(@PathVariable("id") UUID id) {
+        bagService.emptyBag(id);
+        log.debug("EMPTY-BAG: id - {}", id);
     }
 
 }
