@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 import static com.micro.flow.domain.User.Role.USER;
 
 @Slf4j
@@ -23,13 +25,32 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(rollbackFor = Exception.class)
     public User createWithBag(@NotNull User user) {
-        var created = userRepository.save(user.setRoleAndEncodePassword(USER, passwordEncoder));
+        var created = saveUserWithRole(user);
         log.info("Created user: {}", created);
-        bagServiceFeignClient.createBag(created.getEmail());
+        var bagId = sendRequestForBagCreation(created.getEmail());
+        created.setBagId(bagId);
+        log.info("Bag successfully created!");
+        return userRepository.saveAndFlush(created);
+    }
+
+    private User saveUserWithRole(@NotNull User user) {
+        return userRepository.save(user.setRoleAndEncodePassword(USER, passwordEncoder));
+    }
+
+    private UUID sendRequestForBagCreation(String email) {
+        UUID bagId = bagServiceFeignClient.createBag(email);
         log.info("Sent request for BAG creation!");
-        return created;
+        checkBagForNull(bagId);
+        return bagId;
+    }
+
+    private void checkBagForNull(UUID bagId) {
+        if (bagId == null) {
+            log.error("Can't get bag id!");
+            throw new IllegalArgumentException("Sorry our mistake. We are already working on it.");
+        }
     }
 
     @Override
