@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public User createWithBag(@NotNull User user) {
         var created = userRepository.save(user.setRoleAndEncodePassword(USER, passwordEncoder));
         log.info("Created user: {}", created);
