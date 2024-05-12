@@ -3,6 +3,7 @@ package com.micro.flow.service;
 import com.micro.flow.domain.Bag;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -16,4 +17,7 @@ public interface BagService {
 
     void deleteClothesFromBag(UUID id, Long clothesId);
 
+    BigDecimal getTotalPrice(UUID id);
+
+    void resetBag(UUID uuid);
 }

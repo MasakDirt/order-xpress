@@ -1,5 +1,6 @@
 package com.micro.flow.service.impl;
 
+import com.micro.flow.client.BagServiceFeignClient;
 import com.micro.flow.domain.Account;
 import com.micro.flow.repository.AccountRepository;
 import com.micro.flow.service.AccountService;
@@ -8,8 +9,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -18,6 +21,7 @@ import java.util.function.Supplier;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final UserService userService;
+    private final BagServiceFeignClient bagServiceFeignClient;
 
     @Override
     public Account create(String userEmail) {
@@ -59,4 +63,26 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Account buyClothes(String userEmail) {
+        var bagId = getByUserEmail(userEmail).getUser().getBagId();
+        var totalPrice = getTotalPriceByBagId(bagId);
+        var account = debit(userEmail, totalPrice);
+        removeClothesFromBagAfterBuy(bagId);
+        log.info("USER {} bought clothes for {}", userEmail, totalPrice);
+        return account;
+    }
+
+    private BigDecimal getTotalPriceByBagId(UUID bagId) {
+        log.info("GET bag id {}", bagId);
+        var totalPrice = bagServiceFeignClient.getBagTotalPrice(bagId);
+        log.info("Get total price from bag {}", totalPrice);
+        return totalPrice;
+    }
+
+    private void removeClothesFromBagAfterBuy(UUID bagId) {
+        bagServiceFeignClient.resetClothes(bagId);
+        log.info("Remove clothes from bag {}", bagId);
+    }
 }

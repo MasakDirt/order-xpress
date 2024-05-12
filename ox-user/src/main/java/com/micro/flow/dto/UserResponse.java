@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -26,5 +28,7 @@ public class UserResponse {
     @NotNull(message = "Your role is null, sorry it's our " +
             "mistake we are already working on it!")
     private String role;
+
+    private UUID bagId;
 
 }

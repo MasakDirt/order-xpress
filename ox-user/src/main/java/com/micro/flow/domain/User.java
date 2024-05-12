@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -52,6 +53,9 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Account account;
+
+    @Column(name = "bag_id")
+    private UUID bagId;
 
     public enum Role {
         ADMIN, USER, VISITOR
