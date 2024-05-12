@@ -16,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequestMapping("/api/v1/my-bag")
 public class BagController {
-
     private final BagService bagService;
     private final BagMapper bagMapper;
 
