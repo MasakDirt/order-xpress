@@ -16,4 +16,6 @@ public interface AccountService {
 
     Account debit(String userEmail, BigDecimal totalPrice);
 
+    Account buyClothes(String userEmail);
+
 }
