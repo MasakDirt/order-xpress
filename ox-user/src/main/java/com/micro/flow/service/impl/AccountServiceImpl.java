@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
         return () -> {
             log.error("Account not found by email! - {}", userEmail);
             return new EntityNotFoundException("Account by user email not found " + userEmail +
-                    "It's our mistake! We are already working on it!");
+                    ". It's our mistake! We are already working on it!");
         };
     }
 
@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
     public Account replenishAccount(String userEmail, BigDecimal replenishFor) {
         var account = getByUserEmail(userEmail);
         account.replenish(replenishFor);
-        log.error("Account was replenished! For user - {}", userEmail);
+        log.info("Account was replenished for {}! For user - {}", replenishFor, userEmail);
         return accountRepository.save(account);
     }
 
@@ -55,6 +55,7 @@ public class AccountServiceImpl implements AccountService {
     public Account debit(String userEmail, BigDecimal totalPrice) {
         var account = getByUserEmail(userEmail);
         account.debit(totalPrice);
+        log.info("Debit account for {}! For user - {}", totalPrice, userEmail);
         return accountRepository.save(account);
     }
 
