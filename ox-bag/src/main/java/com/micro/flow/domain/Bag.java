@@ -80,4 +80,9 @@ public class Bag {
         return this.clothesIds == null || this.clothesIds.isEmpty();
     }
 
+    public void resetClothesIds() {
+        this.clothesIds = new HashSet<>();
+        this.totalPrice = BigDecimal.ZERO;
+    }
+
 }
