@@ -46,4 +46,12 @@ public class AccountController {
         return ResponseEntity.ok(accountMapper.getResponseFromDomain(account));
     }
 
+    @PostMapping("/buy-clothes")
+    public ResponseEntity<AccountResponse> buyClothes(@PathVariable("email") String email) {
+        var account = accountService.buyClothes(email);
+        log.debug("Buy clothes account: {}, by user email: {}", account, email);
+
+        return ResponseEntity.ok(accountMapper.getResponseFromDomain(account));
+    }
+
 }
