@@ -1,14 +1,15 @@
 package com.micro.flow.controller;
 
-import com.micro.flow.dto.UserCreateRequest;
 import com.micro.flow.dto.UserResponse;
 import com.micro.flow.mapper.UserMapper;
 import com.micro.flow.service.UserService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
@@ -36,14 +37,6 @@ public class UserController {
         var user = userService.readByEmail(email);
         log.debug("GET-USER-EMAIL === user == {}, timestamp == {}",
                 user.getEmail(), LocalDateTime.now());
-
-        return ok(userMapper.getUserResponseFromDomain(user));
-    }
-
-    @PostMapping
-    public ResponseEntity<UserResponse> createUserWithBag(@RequestBody @Valid UserCreateRequest createRequest) {
-        var user = userService.createWithBag(userMapper.getUserFromCreateRequest(createRequest));
-        log.debug("POST-USER === created user == {}", user);
 
         return ok(userMapper.getUserResponseFromDomain(user));
     }
