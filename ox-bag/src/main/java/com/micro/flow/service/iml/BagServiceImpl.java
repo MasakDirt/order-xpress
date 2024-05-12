@@ -30,7 +30,9 @@ public class BagServiceImpl implements BagService {
         if (isBagNotExistByUserEmail(userEmail)) {
             saveNewBagWithUserEmail(userEmail);
             log.info("User with email {} hadn't bag. Created new bag for him.", userEmail);
+            return;
         }
+        log.info("User with email {} already had bag.", userEmail);
     }
 
     private boolean isBagNotExistByUserEmail(String userEmail) {
