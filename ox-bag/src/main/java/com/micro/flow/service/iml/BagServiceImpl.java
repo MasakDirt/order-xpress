@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BagServiceImpl implements BagService {
     private final BagRepository bagRepository;
-    private final ClothesServiceFeignClients serviceFeignClients;
+    private final ClothesServiceFeignClients clothesServiceFeignClients;
 
     @Override
     public Bag create(String userEmail) {
@@ -71,10 +71,24 @@ public class BagServiceImpl implements BagService {
     }
 
     private BigDecimal reduceTotalPriceForBag(Set<Long> clothesIds) {
-        return serviceFeignClients.getClothesByIds(clothesIds)
+        return clothesServiceFeignClients.getClothesByIds(clothesIds)
                 .stream()
                 .map(ClothesResponse::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    @Override
+    public BigDecimal getTotalPrice(UUID id) {
+        var totalPrice = getById(id).getTotalPrice();
+        log.info("Giving total price: {} for bag with id: {} ", totalPrice, id);
+        return totalPrice;
+    }
+
+    @Override
+    public void resetBag(UUID uuid) {
+        var bag = getById(uuid);
+        bag.resetClothesIds();
+        log.info("Empty bag with id: {}", uuid);
+        bagRepository.save(bag);
+    }
 }

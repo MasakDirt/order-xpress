@@ -63,9 +63,9 @@ public class BagController {
         return ResponseEntity.ok(totalPrice);
     }
 
-    @PostMapping("/{id}/remove-clothes")
-    public void removeClothes(@PathVariable("id") UUID id) {
-        bagService.emptyBag(id);
+    @PostMapping("/{id}/reset-bag")
+    public void resetBag(@PathVariable("id") UUID id) {
+        bagService.resetBag(id);
         log.debug("EMPTY-BAG: id - {}", id);
     }
 
