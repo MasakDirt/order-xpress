@@ -26,9 +26,9 @@ public class Account {
     @Min(value = 0, message = "Your balance can't be lower than zero!")
     private BigDecimal balance;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(nullable = false)
+    @NotNull(message = "Sorry, it's our mistake, we are already working on it!")
+    private String username;
 
     public Account() {
         this.balance = BigDecimal.ZERO;
