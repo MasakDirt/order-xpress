@@ -164,6 +164,7 @@
         <module>ox-config-service</module>
         <module>ox-clothes</module>
         <module>ox-bag</module>
+        <module>ox-account</module>
     </modules>
 
 </project>
