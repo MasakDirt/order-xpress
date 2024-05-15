@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -16,6 +17,7 @@ import java.util.Objects;
 @Getter
 @Table(name = "account")
 @ToString(of = "id")
+@NoArgsConstructor
 public class Account {
 
     @Id
@@ -30,7 +32,8 @@ public class Account {
     @NotNull(message = "Sorry, it's our mistake, we are already working on it!")
     private String username;
 
-    public Account() {
+    public Account(String username) {
+        this.username = username;
         this.balance = BigDecimal.ZERO;
     }
 
