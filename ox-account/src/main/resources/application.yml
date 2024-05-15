@@ -1,0 +1,9 @@
+server:
+  port: 8050
+
+spring:
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      name: ox-account
