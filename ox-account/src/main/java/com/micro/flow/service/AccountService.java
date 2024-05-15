@@ -15,8 +15,6 @@ public interface AccountService {
 
     Account replenishAccount(String username, BigDecimal amount);
 
-    Account debit(String username, BigDecimal totalPrice);
-
     Account buyClothes(String username, UUID bagId);
 
 }
