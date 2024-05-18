@@ -8,8 +8,6 @@ public interface UserService {
 
     User createWithBag(User user);
 
-    User readByEmail(String email);
-
-    User readById(Long id);
+    User readByUsername(String username);
 
 }
