@@ -3,6 +3,7 @@ package com.micro.flow.component;
 import com.micro.flow.config.JwtConverterProperties;
 import com.micro.flow.domain.Role;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken> {
@@ -31,17 +33,10 @@ public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken>
                 jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
                 extractResourcesRole(jwt).stream())
                 .collect(Collectors.toSet());
+        String principalClaim = getPrincipalClaimName(jwt);
+        log.debug("Extracted principal claim: {}", principalClaim);
 
-        return new JwtAuthenticationToken(jwt, authorities, getPrincipalClaimName(jwt));
-    }
-
-    private String getPrincipalClaimName(Jwt jwt) {
-        String claimName = JwtClaimNames.SUB;
-        if (properties.getPrincipalAttribute() != null) {
-            claimName = properties.getPrincipalAttribute();
-        }
-
-        return jwt.getClaim(claimName);
+        return new JwtAuthenticationToken(jwt, authorities, principalClaim);
     }
 
     private Collection<? extends GrantedAuthority> extractResourcesRole(Jwt jwt) {
@@ -59,4 +54,14 @@ public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken>
                 .map(role -> new Role("ROLE_" + role))
                 .collect(Collectors.toSet());
     }
+
+    private String getPrincipalClaimName(Jwt jwt) {
+        String claimName = JwtClaimNames.SUB;
+        if (properties.getPrincipalAttribute() != null) {
+            claimName = properties.getPrincipalAttribute();
+        }
+
+        return jwt.getClaim(claimName);
+    }
+
 }
