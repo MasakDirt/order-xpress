@@ -17,10 +17,10 @@ import java.util.Map;
 public class LoginServiceImpl implements LoginService {
     private final KeycloakLoginFeignClient keycloakLoginFeignClient;
 
-    @Value("${spring.keycloak.login.client-id}")
+    @Value("${spring.keycloak.auth.client-id}")
     private String clientId;
 
-    @Value("${spring.keycloak.login.grant-type}")
+    @Value("${spring.keycloak.auth.grant-type}")
     private String grantType;
 
     @Autowired
