@@ -9,9 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 public class OxUserApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(OxUserApplication.class, args);
     }
-
 }
