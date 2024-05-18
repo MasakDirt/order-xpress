@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
-@FeignClient(name = "keycloak", url = "${spring.keycloak.login.uri}")
+@FeignClient(name = "keycloak", url = "${spring.keycloak.auth.login-url}")
 public interface KeycloakLoginFeignClient {
 
     @PostMapping(consumes = "application/x-www-form-urlencoded")
