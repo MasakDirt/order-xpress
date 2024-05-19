@@ -20,8 +20,8 @@ public class CredentialServiceImpl implements CredentialService {
     public void createCredentialForUser(User user, String password) {
         checkPasswordForNull(password);
 
-        String secretData = passwordHashingUtil.getSecretDataForPasswordCredential(password);
-        String credentialData = passwordHashingUtil.getCredentialDataForPasswordCredential();
+        String secretData = passwordHashingUtil.getSecretData(password);
+        String credentialData = passwordHashingUtil.getCredentialData();
 
         Credential credential = new Credential(user.getId(), secretData, credentialData);
         credentialRepository.save(credential);
