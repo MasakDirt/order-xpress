@@ -12,6 +12,8 @@ import lombok.*;
 public class UserCreateRequest {
 
     @NotEmpty(message = "Fill in your name please!")
+    @Pattern(regexp = "^[a-z0-9_.]+$", message = "Username must be lowercase" +
+            " and can contain only letters, numbers, underscores, and dots")
     private String username;
 
     @NotNull(message = "Must be a valid e-mail address")
