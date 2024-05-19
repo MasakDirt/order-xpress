@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,5 +30,7 @@ public class UserResponse {
     @NotNull(message = "Your role is null, sorry it's our " +
             "mistake we are already working on it!")
     private Set<String> roles = new HashSet<>();
+
+    private boolean isEmailVerified;
 
 }
