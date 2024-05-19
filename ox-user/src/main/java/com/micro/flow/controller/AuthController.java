@@ -43,7 +43,8 @@ public class AuthController {
     @PostMapping("/signUp")
     public ResponseEntity<UserResponse> createUserWithBagAndAccount(
             @RequestBody @Valid UserCreateRequest createRequest) {
-        var user = userService.createWithBag(userMapper.getUserFromCreateRequest(createRequest));
+        var user = userService.create(userMapper.getUserFromCreateRequest(createRequest),
+                createRequest.getPassword());
         log.debug("POST-USER === created user == {}", user);
 
         return status(HttpStatus.CREATED)

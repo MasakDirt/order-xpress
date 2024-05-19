@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public User createWithBag(@NotNull User user, String password) {
+    public User create(@NotNull User user, String password) {
         user.setImportantValues(realmId, Set.of(roleRepository.findByName("ox_user")));
         var created = userRepository.save(user);
         log.info("Created: {}", created);
