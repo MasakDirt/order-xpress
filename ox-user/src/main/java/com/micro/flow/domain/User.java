@@ -28,7 +28,8 @@ public class User {
 
     @NaturalId
     @Column(nullable = false, updatable = false, unique = true)
-    @NotEmpty(message = "Fill in your name please!")
+    @NotNull(message = "Username must be lowercase and can contain only letters," +
+            " numbers, underscores, and dots")
     @Pattern(regexp = "^[a-z0-9_.]+$", message = "Username must be lowercase" +
             " and can contain only letters, numbers, underscores, and dots")
     private String username;
