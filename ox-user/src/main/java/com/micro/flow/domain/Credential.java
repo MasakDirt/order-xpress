@@ -33,10 +33,10 @@ public class Credential {
 
     private long createdDate;
 
-    @NotEmpty(message = "Your data is empty. We are looking for it!")
+    @NotEmpty(message = "Your data is empty. We are working on it!")
     private String secretData;
 
-    @NotEmpty(message = "Your data is empty. We are looking for it!")
+    @NotEmpty(message = "Your data is empty. We are working on it!")
     private String credentialData;
 
     private int priority;
