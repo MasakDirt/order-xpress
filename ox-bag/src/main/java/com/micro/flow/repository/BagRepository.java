@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface BagRepository extends CrudRepository<Bag, UUID> {
 
-    Optional<Bag> findByUserEmail(String userEmail);
+    Optional<Bag> findByUsername(String username);
 
 }
