@@ -20,10 +20,10 @@ public class BagController {
     private final BagService bagService;
     private final BagMapper bagMapper;
 
-    @PostMapping("/{user-email}")
-    public ResponseEntity<UUID> create(@PathVariable("user-email") String email) {
-        var bag = bagService.create(email);
-        log.debug("CREATED-BAG: {} - for user - {}", bag, email);
+    @PostMapping("/{username}")
+    public ResponseEntity<UUID> create(@PathVariable("username") String username) {
+        var bag = bagService.create(username);
+        log.debug("CREATED-BAG: {} - for user - {}", bag, username);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bag.getId());
