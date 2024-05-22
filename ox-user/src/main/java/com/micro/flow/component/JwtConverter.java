@@ -8,7 +8,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
@@ -23,19 +22,20 @@ import java.util.stream.Stream;
 @Component
 @AllArgsConstructor
 public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken> {
-    private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter =
-            new JwtGrantedAuthoritiesConverter();
+    private static final String PREFERRED_JWT_USERNAME = "upn";
+    private static final JwtGrantedAuthoritiesConverter JWT_GRANTED_AUTHORITIES_CONVERTER
+            = new JwtGrantedAuthoritiesConverter();
     private final JwtConverterProperties properties;
 
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream.concat(
-                jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
-                extractResourcesRole(jwt).stream())
+                        JWT_GRANTED_AUTHORITIES_CONVERTER.convert(jwt).stream(),
+                        extractResourcesRole(jwt).stream())
                 .collect(Collectors.toSet());
         String principalClaim = getPrincipalClaimName(jwt);
         log.debug("Extracted principal claim: {}", principalClaim);
-
+        log.debug("Jwt claims: {}", jwt.getClaims());
         return new JwtAuthenticationToken(jwt, authorities, principalClaim);
     }
 
@@ -56,12 +56,11 @@ public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken>
     }
 
     private String getPrincipalClaimName(Jwt jwt) {
-        String claimName = JwtClaimNames.SUB;
+        String claimName = PREFERRED_JWT_USERNAME;
         if (properties.getPrincipalAttribute() != null) {
             claimName = properties.getPrincipalAttribute();
         }
-
         return jwt.getClaim(claimName);
     }
-
 }
+
