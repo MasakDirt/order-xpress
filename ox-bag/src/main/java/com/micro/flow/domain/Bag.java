@@ -34,7 +34,7 @@ public class Bag {
     @Column(value = "user_email")
     @Indexed(value = "idx_user_email")
     @NotEmpty(message = "Bag must contain owner!")
-    private String userEmail;
+    private String username;
 
     @Setter(AccessLevel.PRIVATE)
     @Column(value = "clothes_id's")
