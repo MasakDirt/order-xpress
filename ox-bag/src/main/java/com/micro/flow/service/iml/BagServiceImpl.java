@@ -21,27 +21,27 @@ public class BagServiceImpl implements BagService {
     private final ClothesServiceFeignClients clothesServiceFeignClients;
 
     @Override
-    public Bag create(String userEmail) {
-        ifBagNotExistCreateNew(userEmail);
-        return bagRepository.findByUserEmail(userEmail).get();
+    public Bag create(String username) {
+        ifBagNotExistCreateNew(username);
+        return bagRepository.findByUsername(username).get();
     }
 
-    private void ifBagNotExistCreateNew(String userEmail) {
-        if (isBagNotExistByUserEmail(userEmail)) {
-            saveNewBagWithUserEmail(userEmail);
-            log.info("User with email {} hadn't bag. Created new bag for him.", userEmail);
+    private void ifBagNotExistCreateNew(String username) {
+        if (isBagNotExistByUsername(username)) {
+            saveNewBagWithUsername(username);
+            log.info("User with name {} hadn't bag. Created new bag for him.", username);
             return;
         }
-        log.info("User with email {} already had bag.", userEmail);
+        log.info("User with name {} already had bag.", username);
     }
 
-    private boolean isBagNotExistByUserEmail(String userEmail) {
-        return bagRepository.findByUserEmail(userEmail).isEmpty();
+    private boolean isBagNotExistByUsername(String userEmail) {
+        return bagRepository.findByUsername(userEmail).isEmpty();
     }
 
-    private void saveNewBagWithUserEmail(String userEmail) {
+    private void saveNewBagWithUsername(String username) {
         var bag = new Bag();
-        bag.setUserEmail(userEmail);
+        bag.setUsername(username);
         bagRepository.save(bag);
     }
 
