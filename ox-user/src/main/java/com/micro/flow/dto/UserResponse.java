@@ -10,14 +10,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    private UUID id;
+    private String id;
 
     @NotEmpty(message = "Fill in your name please!")
     private String username;
@@ -32,5 +31,4 @@ public class UserResponse {
     private Set<String> roles = new HashSet<>();
 
     private boolean isEmailVerified;
-
 }
