@@ -26,12 +26,12 @@ public class Role implements GrantedAuthority {
     @Column(name = "realm_id")
     private String realmId;
 
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
+
     public Role(String name) {
         this.name = name;
     }
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
 
     @Override
     public String getAuthority() {
