@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         var formParams = getFormParamsForLogin(loginRequest);
-        log.info("Try to get login credentials from Keycloak for {}.", loginRequest.getUsername());
+        log.debug("Try to get login credentials from Keycloak for {}.", loginRequest.getUsername());
         var loginResponse = keycloakLoginFeignClient.login(formParams);
         log.info("User {} successfully login.", loginRequest.getUsername());
 
