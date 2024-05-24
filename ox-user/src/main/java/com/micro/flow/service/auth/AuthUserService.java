@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class AuthUserService {
-    public boolean isUserSame(String passedUsername, String authUsername) {
+    public boolean isUserAuthenticated(String passedUsername, String authUsername) {
         return authUsername.equals(passedUsername);
     }
 }
