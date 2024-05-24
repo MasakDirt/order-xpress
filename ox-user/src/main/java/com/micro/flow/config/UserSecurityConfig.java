@@ -1,6 +1,6 @@
 package com.micro.flow.config;
 
-import com.micro.flow.component.JwtConverter;
+import com.micro.flow.oauth2component.JwtConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 @AllArgsConstructor
-public class SecurityConfig {
-    private final JwtConverter jwtConverter;
+public class UserSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtConverter jwtConverter) throws Exception {
         http.authorizeHttpRequests(request ->
                         request.requestMatchers("/api/v1/auth/**").permitAll()
                                 .anyRequest()
