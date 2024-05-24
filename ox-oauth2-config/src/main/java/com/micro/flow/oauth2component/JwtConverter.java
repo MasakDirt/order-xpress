@@ -1,12 +1,12 @@
-package com.micro.flow.component;
+package com.micro.flow.oauth2component;
 
-import com.micro.flow.config.JwtConverterProperties;
-import com.micro.flow.domain.Role;
+import com.micro.flow.oauth2config.JwtConverterProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
@@ -51,7 +51,7 @@ public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken>
         }
 
         return resourceRoles.stream()
-                .map(role -> new Role("ROLE_" + role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
     }
 

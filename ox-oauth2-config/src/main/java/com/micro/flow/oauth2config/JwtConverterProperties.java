@@ -1,4 +1,4 @@
-package com.micro.flow.config;
+package com.micro.flow.oauth2config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
