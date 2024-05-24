@@ -165,6 +165,7 @@
         <module>ox-clothes</module>
         <module>ox-bag</module>
         <module>ox-account</module>
+        <module>ox-oauth2-config</module>
     </modules>
 
 </project>
