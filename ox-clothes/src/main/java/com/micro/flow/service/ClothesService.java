@@ -4,6 +4,7 @@ import com.micro.flow.domain.Clothes;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -19,5 +20,7 @@ public interface ClothesService {
     Clothes create(Clothes clothes);
 
     void delete(Long id);
+
+    BigDecimal reduceTotalPriceForBag(List<Long> clothesIds);
 
 }
