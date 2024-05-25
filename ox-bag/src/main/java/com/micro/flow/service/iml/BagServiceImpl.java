@@ -2,7 +2,6 @@ package com.micro.flow.service.iml;
 
 import com.micro.flow.client.ClothesServiceFeignClients;
 import com.micro.flow.domain.Bag;
-import com.micro.flow.dto.clothes.ClothesResponse;
 import com.micro.flow.exception.EntityNotFoundException;
 import com.micro.flow.repository.BagRepository;
 import com.micro.flow.service.BagService;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
