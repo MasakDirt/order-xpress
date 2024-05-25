@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -28,6 +29,7 @@ public class Account {
     @Min(value = 0, message = "Your balance can't be lower than zero!")
     private BigDecimal balance;
 
+    @NaturalId
     @Column(nullable = false)
     @NotNull(message = "Sorry, it's our mistake, we are already working on it!")
     private String username;
@@ -75,7 +77,7 @@ public class Account {
     }
 
     private boolean isAmountSmallerThanZero(BigDecimal balance) {
-        return balance.compareTo(BigDecimal.ZERO) < 0;
+        return balance.compareTo(BigDecimal.ZERO) < BigDecimal.ZERO.intValue();
     }
 
 }
