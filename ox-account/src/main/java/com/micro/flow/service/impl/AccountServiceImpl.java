@@ -22,9 +22,20 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account create(String username) {
+        if (isAccountNew(username)) {
+            return createNewAccount(username);
+        }
+        log.info("Account for username {} already exist", username);
+        return getByUsername(username);
+    }
+
+    private boolean isAccountNew(String username) {
+        return accountRepository.findByUsername(username).isEmpty();
+    }
+
+    private Account createNewAccount(String username) {
         var account = accountRepository.save(new Account(username));
         log.info("Created new account for user {}", username);
-
         return account;
     }
 
