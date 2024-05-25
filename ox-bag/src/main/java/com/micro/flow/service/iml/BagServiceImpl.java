@@ -3,6 +3,7 @@ package com.micro.flow.service.iml;
 import com.micro.flow.client.ClothesServiceFeignClients;
 import com.micro.flow.domain.Bag;
 import com.micro.flow.dto.clothes.ClothesResponse;
+import com.micro.flow.exception.EntityNotFoundException;
 import com.micro.flow.repository.BagRepository;
 import com.micro.flow.service.BagService;
 import lombok.AllArgsConstructor;
@@ -22,73 +23,68 @@ public class BagServiceImpl implements BagService {
 
     @Override
     public Bag create(String username) {
-        ifBagNotExistCreateNew(username);
-        return bagRepository.findByUsername(username).get();
-    }
-
-    private void ifBagNotExistCreateNew(String username) {
         if (isBagNotExistByUsername(username)) {
-            saveNewBagWithUsername(username);
-            log.info("User with name {} hadn't bag. Created new bag for him.", username);
-            return;
+            return saveNewBagWithUsername(username);
         }
         log.info("User with name {} already had bag.", username);
+        return getByUsername(username);
     }
 
     private boolean isBagNotExistByUsername(String userEmail) {
         return bagRepository.findByUsername(userEmail).isEmpty();
     }
 
-    private void saveNewBagWithUsername(String username) {
-        var bag = new Bag();
-        bag.setUsername(username);
-        bagRepository.save(bag);
+    private Bag saveNewBagWithUsername(String username) {
+        var bag = bagRepository.save(new Bag(username));
+        log.info("User with name {} hadn't bag. Created new bag for him.", username);
+        return bag;
     }
 
     @Override
     public Bag getById(UUID id) {
         var bag = bagRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Bag not found"));
+                () -> new EntityNotFoundException("Bag not found"));
         log.info("Get bag by id: {}", id);
         return bag;
     }
 
     @Override
-    public void putClothesToBag(UUID id, Long clothesId) {
-        setPriceAndSave(getById(id).updateClothesIdAndGet(clothesId));
-        log.info("Put clothe to bag with id: {}", id);
+    public Bag getByUsername(String username) {
+        return bagRepository.findByUsername((username)).orElseThrow(
+                () -> new EntityNotFoundException("Bag not found for username: " + username));
     }
 
     @Override
-    public void deleteClothesFromBag(UUID id, Long clothesId) {
-        setPriceAndSave(getById(id).deleteClothesIdAndGet(clothesId));
-        log.info("Delete clothe from bag with id: {}", id);
+    public void putClothesToBag(String username, Long clothesId) {
+        setPriceAndSave(getByUsername(username).updateClothesIdAndGet(clothesId));
+        log.info("Put clothe to bag with username: {}", username);
+    }
+
+    @Override
+    public void deleteClothesFromBag(String username, Long clothesId) {
+        setPriceAndSave(getByUsername(username).deleteClothesIdAndGet(clothesId));
+        log.info("Delete clothe from bag with username: {}", username);
     }
 
     private void setPriceAndSave(Bag bag) {
-        bag.setTotalPrice(reduceTotalPriceForBag(bag.getClothesIds()));
+        bag.setTotalPrice(clothesServiceFeignClients.reduceClothes(bag.getClothesIds()));
         bagRepository.save(bag);
     }
 
-    private BigDecimal reduceTotalPriceForBag(Set<Long> clothesIds) {
-        return clothesServiceFeignClients.getClothesByIds(clothesIds)
-                .stream()
-                .map(ClothesResponse::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
 
     @Override
-    public BigDecimal getTotalPrice(UUID id) {
-        var totalPrice = getById(id).getTotalPrice();
-        log.info("Giving total price: {} for bag with id: {} ", totalPrice, id);
+    public BigDecimal getTotalPriceByUsername(String username) {
+        var totalPrice = getByUsername(username).getTotalPrice();
+        log.info("Giving total price: {} for bag with username: {} ",
+                totalPrice, username);
         return totalPrice;
     }
 
     @Override
-    public void resetBag(UUID uuid) {
-        var bag = getById(uuid);
+    public void resetBag(String username) {
+        var bag = getByUsername(username);
         bag.resetClothesIds();
-        log.info("Empty bag with id: {}", uuid);
+        log.info("Empty bag with username: {}", username);
         bagRepository.save(bag);
     }
 }
