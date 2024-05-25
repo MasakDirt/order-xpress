@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
-import static org.springframework.http.ResponseEntity.ok;
-
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -26,25 +24,25 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping("/u/{username}")
-    @PreAuthorize("@authUserService.isUserSame(#username, authentication.name)")
+    @PreAuthorize("@authUserService.isUserAuthenticated(#username, authentication.name)")
     public ResponseEntity<UserResponse> getUserByUsername(
             @PathVariable("username") String username) {
         var user = userService.readByUsername(username);
         log.debug("GET-USER-USERNAME === user == {}, timestamp == {}",
                 username, LocalDateTime.now());
 
-        return ok(userMapper.getUserResponseFromDomain(user));
+        return ResponseEntity.ok(userMapper.getUserResponseFromDomain(user));
     }
 
     @GetMapping("/for-account/{username}")
-    @PreAuthorize("@authUserService.isUserSame(#username, authentication.name)")
+    @PreAuthorize("@authUserService.isUserAuthenticated(#username, authentication.name)")
     public ResponseEntity<UserDtoForAccount> getUserDtoForAccount(
             @PathVariable("username") String username) {
-        var userDtoForAccount = userMapper.getUserDtoForAccountFromDomain(
-                userService.readByUsername(username));
+        var readedUser = userService.readByUsername(username);
         log.debug("GET-USER_FOR_ACCOUNT === user == {}", username);
 
-        return ok(userDtoForAccount);
+        return ResponseEntity.ok(userMapper
+                .getUserDtoForAccountFromDomain(readedUser));
     }
 
 }
