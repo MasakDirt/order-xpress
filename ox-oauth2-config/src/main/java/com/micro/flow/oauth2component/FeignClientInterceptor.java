@@ -1,4 +1,4 @@
-package com.micro.flow.component;
+package com.micro.flow.oauth2component;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FeignClientInterceptor implements RequestInterceptor {
-
     @Override
     public void apply(RequestTemplate requestTemplate) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -18,5 +17,4 @@ public class FeignClientInterceptor implements RequestInterceptor {
             requestTemplate.header("Authorization", "Bearer " + token);
         }
     }
-
 }
