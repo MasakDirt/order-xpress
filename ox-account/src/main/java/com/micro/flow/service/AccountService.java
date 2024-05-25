@@ -15,6 +15,6 @@ public interface AccountService {
 
     Account replenishAccount(String username, BigDecimal amount);
 
-    Account buyClothes(String username, UUID bagId);
+    Account buyClothes(String username);
 
 }
