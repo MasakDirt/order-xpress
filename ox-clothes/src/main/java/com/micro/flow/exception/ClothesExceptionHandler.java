@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.file.AccessDeniedException;
@@ -22,8 +21,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestControllerAdvice
-public class ApplicationExceptionHandler {
-
+public class ClothesExceptionHandler {
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ErrorResponse> handleResponseStatusException(
             HttpServletRequest request, ResponseStatusException ex) {
@@ -41,16 +39,10 @@ public class ApplicationExceptionHandler {
         return getErrorResponse(request, BAD_REQUEST, message);
     }
 
-    @ExceptionHandler({ConstraintViolationException.class})
+    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handleConstraintViolationException(
             HttpServletRequest request, ConstraintViolationException ex) {
         return getErrorResponse(request, BAD_REQUEST, ex.getConstraintName());
-    }
-
-    @ExceptionHandler({HandlerMethodValidationException.class})
-    public ResponseEntity<ErrorResponse> handleHandlerMethodValidationException(
-            HttpServletRequest request, HandlerMethodValidationException ex) {
-        return getErrorResponse(request, BAD_REQUEST, ex.getBody().getDetail());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -59,13 +51,13 @@ public class ApplicationExceptionHandler {
         return getErrorResponse(request, BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler({AccessDeniedException.class})
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(
             HttpServletRequest request, RuntimeException ex) {
         return getErrorResponse(request, FORBIDDEN, ex.getMessage());
     }
 
-    @ExceptionHandler({EntityNotFoundException.class})
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundExceptions(
             HttpServletRequest request, RuntimeException ex) {
         return getErrorResponse(request, NOT_FOUND, ex.getMessage());
