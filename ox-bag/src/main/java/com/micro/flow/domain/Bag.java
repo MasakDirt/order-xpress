@@ -40,8 +40,9 @@ public class Bag {
     @Column(value = "clothes_id's")
     private Set<Long> clothesIds;
 
-    public Bag() {
+    public Bag(String username) {
         this.id = UUID.randomUUID();
+        this.username = username;
     }
 
     @Override
