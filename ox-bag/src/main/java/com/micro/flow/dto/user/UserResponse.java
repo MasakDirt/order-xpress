@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserResponse {
 
-    private Long id;
+    private String id;
 
     @NotEmpty(message = "Username must be included")
     private String username;
