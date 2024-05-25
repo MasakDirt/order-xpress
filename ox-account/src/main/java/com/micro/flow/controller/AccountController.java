@@ -10,9 +10,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -32,6 +31,7 @@ public class AccountController {
     }
 
     @GetMapping
+    @PreAuthorize("@globalAuthService.isUserAuthenticated(#username, authentication.name)")
     public ResponseEntity<AccountResponse> getAccount(@PathVariable("username") String username) {
         var account = accountService.getByUsername(username);
         log.debug("Get account: {}, by username: {}", account, username);
@@ -40,6 +40,7 @@ public class AccountController {
     }
 
     @PostMapping("/replenish")
+    @PreAuthorize("@globalAuthService.isUserAuthenticated(#username, authentication.name)")
     public ResponseEntity<AccountResponse> replenishAccount(
             @PathVariable("username") String username,
             @RequestBody @Valid TransactionRequest transactionRequest) {
@@ -49,17 +50,17 @@ public class AccountController {
         return getResponse(account, username);
     }
 
-    @PostMapping("/buy-clothes/{bag-id}")
-    public ResponseEntity<AccountResponse> buyClothes(@PathVariable("username") String username,
-                                                      @PathVariable("bag-id") UUID bagId) {
-        var account = accountService.buyClothes(username, bagId);
-        log.debug("Buy clothes account: {}, by username: {}", account, username);
+    @PostMapping("/buy-clothes")
+    @PreAuthorize("@globalAuthService.isUserAuthenticated(#username, authentication.name)")
+    public ResponseEntity<AccountResponse> buyClothes(@PathVariable("username") String username) {
+        var account = accountService.buyClothes(username);
+        log.debug("Buy clothes via account: {}, and username: {}", account, username);
 
         return getResponse(account, username);
     }
 
     private ResponseEntity<AccountResponse> getResponse(
-            Account account, String username){
+            Account account, String username) {
         return ResponseEntity.ok(accountMapper.getResponseFromDomain(account,
                 userServiceFeignClient.getUserByUsername(username)));
     }
