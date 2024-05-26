@@ -24,7 +24,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping("/u/{username}")
-    @PreAuthorize("@authUserService.isUserAuthenticated(#username, authentication.name)")
+    @PreAuthorize("@globalAuthService.isUserAuthenticated(#username, authentication.name)")
     public ResponseEntity<UserResponse> getUserByUsername(
             @PathVariable("username") String username) {
         var user = userService.readByUsername(username);
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/for-account/{username}")
-    @PreAuthorize("@authUserService.isUserAuthenticated(#username, authentication.name)")
+    @PreAuthorize("@globalAuthService.isUserAuthenticated(#username, authentication.name)")
     public ResponseEntity<UserDtoForAccount> getUserDtoForAccount(
             @PathVariable("username") String username) {
         var readedUser = userService.readByUsername(username);
