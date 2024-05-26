@@ -48,7 +48,8 @@ public class PasswordHashingUtil {
             return Base64.getEncoder().encodeToString(hash);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             log.error("Error hashing password: ", e);
-            throw new HashingPasswordException("An error occurred while hashing the password. Please try again later.");
+            throw new HashingPasswordException("An error occurred while hashing the password." +
+                    " Please try again later.");
         }
     }
 
