@@ -3,13 +3,15 @@ package com.micro.flow.dto.user;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
+import java.util.Set;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse {
 
-    private Long id;
+    private String id;
 
     @NotEmpty(message = "Username must be included")
     private String username;
@@ -17,7 +19,6 @@ public class UserResponse {
     @NotEmpty(message = "Email must be included")
     private String email;
 
-    @NotEmpty(message = "Role must be included")
-    private String role;
+    private Set<String> roles;
 
 }

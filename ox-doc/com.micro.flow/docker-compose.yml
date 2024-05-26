@@ -1,33 +1,41 @@
 services:
   postgres:
     container_name: postgres-ox
-    image: postgres
+    image: postgres:15
     environment:
       POSTGRES_USER: ox_user
       POSTGRES_PASSWORD: 1234
       PGDATA: /data/postgres
     volumes:
-      - postgres:/data/postgres
-    ports:
-      - "5432:5432"
-    networks:
-      - postgres
+      - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    ports:
+      - 5432:5432
 
-  pgadmin:
-    container_name: pgadmin-ox
-    image: dpage/pgadmin4
+  keycloak_web:
+    image: quay.io/keycloak/keycloak:23.0.7
+    container_name: ox_keycloak
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    ports:
-      - "5050:80"
-    networks:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/ox_user
+      KC_DB_USERNAME: ox_user
+      KC_DB_PASSWORD: 1234
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev
+    depends_on:
       - postgres
-    restart: unless-stopped
+    ports:
+      - 8080:8080
 
   mysql:
     image: mysql
@@ -71,13 +79,24 @@ services:
     command:
       - "chmod +x /init_cassandra.sh && /init_cassandra.sh && cassandra -f"
 
-networks:
-  postgres:
-    driver: bridge
-  spring:
-    driver: bridge
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=ox_account
+      - MYSQL_ROOT_PASSWORD=1234
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - mariadb_network
 
 volumes:
-  postgres:
-  pgadmin:
+  postgres_data:
   mysql_data:
+  mariadb_data:
+
+networks:
+  mariadb_network:
+    driver: bridge

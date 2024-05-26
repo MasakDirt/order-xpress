@@ -21,6 +21,10 @@ public class BagMapperImpl implements BagMapper {
 
     @Override
     public BagResponse getBagResponseFromDomain(Bag bag) {
+        if (bag == null) {
+            return null;
+        }
+
         BagResponse.BagResponseBuilder bagResponse = BagResponse.builder();
 
         if (bag.getId() != null) {
@@ -30,8 +34,9 @@ public class BagMapperImpl implements BagMapper {
         var totalPrice = bag.getTotalPrice();
         bagResponse.totalPrice(totalPrice == null ? ZERO : totalPrice);
 
-        if (bag.getUserEmail() != null && !bag.getUserEmail().trim().isEmpty()) {
-            bagResponse.userResponse(getUserResponse(bag.getUserEmail()));
+        String username = bag.getUsername();
+        if (username != null && !username.trim().isEmpty()) {
+            bagResponse.userResponse(getUserResponse(username));
         }
 
         if (bag.getClothesIds() != null && !bag.getClothesIds().isEmpty()) {
@@ -44,7 +49,7 @@ public class BagMapperImpl implements BagMapper {
     }
 
     private UserResponse getUserResponse(String userEmail) {
-        return userServiceFeignClient.getByEmail(userEmail);
+        return userServiceFeignClient.getByUsername(userEmail);
     }
 
     private List<ClothesResponse> getClothesResponses(Set<Long> clothesIds) {

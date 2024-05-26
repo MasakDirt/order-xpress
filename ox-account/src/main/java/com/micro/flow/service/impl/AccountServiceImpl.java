@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -23,9 +22,20 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account create(String username) {
+        if (isAccountNew(username)) {
+            return createNewAccount(username);
+        }
+        log.info("Account for username {} already exist", username);
+        return getByUsername(username);
+    }
+
+    private boolean isAccountNew(String username) {
+        return accountRepository.findByUsername(username).isEmpty();
+    }
+
+    private Account createNewAccount(String username) {
         var account = accountRepository.save(new Account(username));
         log.info("Created new account for user {}", username);
-
         return account;
     }
 
@@ -55,17 +65,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Account buyClothes(String username, UUID bagId) {
-        var totalPrice = getTotalPriceByBagId(bagId);
+    public Account buyClothes(String username) {
+        var totalPrice = getBagTotalPriceByUsername(username);
         var account = debit(username, totalPrice);
-        removeClothesFromBagAfterBuying(bagId);
+        removeClothesFromBagAfterBuying(username);
         log.info("USER {} bought clothes for {}", username, totalPrice);
         return account;
     }
 
-    private BigDecimal getTotalPriceByBagId(UUID bagId) {
-        log.info("GET bag id {}", bagId);
-        var totalPrice = bagServiceFeignClient.getBagTotalPrice(bagId);
+    private BigDecimal getBagTotalPriceByUsername(String username) {
+        log.info("GET bag username {}", username);
+        var totalPrice = bagServiceFeignClient.getBagTotalPrice(username);
         log.info("Get total price from bag {}", totalPrice);
         return totalPrice;
     }
@@ -77,8 +87,8 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
-    private void removeClothesFromBagAfterBuying(UUID bagId) {
-        bagServiceFeignClient.resetClothes(bagId);
-        log.info("Remove clothes from bag {}", bagId);
+    private void removeClothesFromBagAfterBuying(String username) {
+        bagServiceFeignClient.resetClothes(username);
+        log.info("Remove clothes from bag {}", username);
     }
 }

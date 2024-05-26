@@ -34,14 +34,15 @@ public class Bag {
     @Column(value = "user_email")
     @Indexed(value = "idx_user_email")
     @NotEmpty(message = "Bag must contain owner!")
-    private String userEmail;
+    private String username;
 
     @Setter(AccessLevel.PRIVATE)
     @Column(value = "clothes_id's")
     private Set<Long> clothesIds;
 
-    public Bag() {
+    public Bag(String username) {
         this.id = UUID.randomUUID();
+        this.username = username;
     }
 
     @Override

@@ -22,6 +22,6 @@ public class AccountResponse {
     private BigDecimal balance;
 
     @Valid
-    private UserDtoForAccount user;
+    private UserDtoForAccount userDtoForAccount;
 
 }

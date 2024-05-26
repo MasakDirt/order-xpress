@@ -10,8 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
@@ -21,6 +23,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/clothes")
+@PreAuthorize("hasAnyRole('ox_user', 'ox_admin')")
 public class ClothesController {
     private final ClothesService clothesService;
     private final ClothesMapper clothesMapper;
@@ -39,7 +42,8 @@ public class ClothesController {
     }
 
     @GetMapping("/for-bag/{ids}")
-    public ResponseEntity<List<ShortenClothesResponse>> getAllByIds(@PathVariable("ids") List<Long> ids) {
+    public ResponseEntity<List<ShortenClothesResponse>> getAllByIds(
+            @PathVariable("ids") List<Long> ids) {
         var clothes = clothesService.getAllByIds(ids);
         log.debug("GET-CLOTHES by ids: {}", ids);
 
@@ -48,16 +52,17 @@ public class ClothesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ClothesResponse> getById(@PathVariable("id") Long id) {
-        var outerwear = clothesService.getOneById(id);
+        var clothes = clothesService.getOneById(id);
         log.debug("GET-CLOTHES by id: {}", id);
 
-        return ok(clothesMapper.getResponseFromDomain(outerwear));
+        return ok(clothesMapper.getResponseFromDomain(clothes));
     }
 
     @PostMapping
     public ResponseEntity<ClothesResponse> createClothes(
             @RequestBody @Valid ClothesCreateRequest createRequest) {
-        var created = clothesService.create(clothesMapper.getDomainFromCreateRequest(createRequest));
+        var created = clothesService.create(
+                clothesMapper.getDomainFromCreateRequest(createRequest));
         log.debug("CREATE-CLOTHES: {}", created);
 
         return status(HttpStatus.CREATED)
@@ -71,4 +76,11 @@ public class ClothesController {
         log.debug("DELETE-CLOTHES with id: {}", id);
     }
 
+    @GetMapping("/for-bag/total-price/{ids}")
+    public ResponseEntity<BigDecimal> getTotalPriceForBag(@PathVariable("ids") List<Long> ids) {
+        var totalPrice = clothesService.reduceTotalPriceForBag(ids);
+        log.debug("REDUCE-CLOTHES_FOR_BAG by ids: {}", ids);
+
+        return ok(totalPrice);
+    }
 }

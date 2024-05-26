@@ -21,11 +21,11 @@
         <maven.plugins.javadoc.version>3.4.1</maven.plugins.javadoc.version>
         <maven.plugins.gitflow.version>1.18.0</maven.plugins.gitflow.version>
 
-        <spring.boot.version>3.2.3</spring.boot.version>
-        <spring.boot.starter.version>3.2.3</spring.boot.starter.version>
-        <spring.boot.starter.jpa.version>3.2.3</spring.boot.starter.jpa.version>
-        <spring.boot.autoconfigure.version>3.2.3</spring.boot.autoconfigure.version>
-        <spring.cloud.version>2023.0.0</spring.cloud.version>
+        <spring.boot.version>3.1.8</spring.boot.version>
+        <spring.boot.starter.version>3.1.8</spring.boot.starter.version>
+        <spring.boot.starter.jpa.version>3.1.8</spring.boot.starter.jpa.version>
+        <spring.boot.autoconfigure.version>3.1.8</spring.boot.autoconfigure.version>
+        <spring.cloud.version>2022.0.5</spring.cloud.version>
         <junit-jupiter.version>5.10.2</junit-jupiter.version>
         <lombok.version>1.18.30</lombok.version>
         <swagger.version>2.2.20</swagger.version>
@@ -165,6 +165,7 @@
         <module>ox-clothes</module>
         <module>ox-bag</module>
         <module>ox-account</module>
+        <module>ox-oauth2-config</module>
     </modules>
 
 </project>

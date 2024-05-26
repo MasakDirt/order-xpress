@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.ASC;
@@ -59,7 +60,7 @@ public class ClothesServiceImpl implements ClothesService {
     @Override
     public Clothes getOneById(Long id) {
         var clothes = clothesRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Outerwear not found"));
+                () -> new EntityNotFoundException("Clothes not found"));
         log.info("Getting clothes by id {}", id);
         return clothes;
     }
@@ -77,6 +78,14 @@ public class ClothesServiceImpl implements ClothesService {
     public void delete(Long id) {
         clothesRepository.delete(getOneById(id));
         log.info("Deleted clothes {}", id);
+    }
+
+    @Override
+    public BigDecimal reduceTotalPriceForBag(List<Long> clothesIds) {
+        return clothesRepository.findAllById(clothesIds)
+                .stream()
+                .map(Clothes::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

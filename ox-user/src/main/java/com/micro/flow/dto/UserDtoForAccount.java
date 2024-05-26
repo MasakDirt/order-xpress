@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 public class UserDtoForAccount {
-    private Long id;
+    private String id;
 
     @NotEmpty(message = "Fill in your name please!")
     private String username;

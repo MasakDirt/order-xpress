@@ -8,14 +8,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    private Long id;
+    private String id;
 
     @NotEmpty(message = "Fill in your name please!")
     private String username;
@@ -27,8 +28,7 @@ public class UserResponse {
 
     @NotNull(message = "Your role is null, sorry it's our " +
             "mistake we are already working on it!")
-    private String role;
+    private Set<String> roles = new HashSet<>();
 
-    private UUID bagId;
-
+    private boolean isEmailVerified;
 }

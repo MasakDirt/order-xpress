@@ -13,11 +13,13 @@ public interface BagService {
 
     Bag getById(UUID id);
 
-    void putClothesToBag(UUID id, Long clothesId);
+    Bag getByUsername(String username);
 
-    void deleteClothesFromBag(UUID id, Long clothesId);
+    void putClothesToBag(String username, Long clothesId);
 
-    BigDecimal getTotalPrice(UUID id);
+    void deleteClothesFromBag(String username, Long clothesId);
 
-    void resetBag(UUID uuid);
+    BigDecimal getTotalPriceByUsername(String username);
+
+    void resetBag(String username);
 }
