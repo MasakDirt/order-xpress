@@ -1,6 +1,7 @@
 package com.micro.flow.exception;
 
 import com.micro.flow.dto.ErrorResponse;
+import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.access.AccessDeniedException;
 
-import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -46,20 +47,26 @@ public class UserExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleBadRequestExceptions(
-            HttpServletRequest request, RuntimeException ex) {
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
+            HttpServletRequest request, IllegalArgumentException ex) {
         return getErrorResponse(request, BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ErrorResponse> handleFeignException(
+            HttpServletRequest request, FeignException ex) {
+        return getErrorResponse(request, BAD_REQUEST, "Write please valid credentials " + ex.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(
-            HttpServletRequest request, RuntimeException ex) {
+            HttpServletRequest request, AccessDeniedException ex) {
         return getErrorResponse(request, FORBIDDEN, ex.getMessage());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundExceptions(
-            HttpServletRequest request, RuntimeException ex) {
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(
+            HttpServletRequest request, EntityNotFoundException ex) {
         return getErrorResponse(request, NOT_FOUND, ex.getMessage());
     }
 
