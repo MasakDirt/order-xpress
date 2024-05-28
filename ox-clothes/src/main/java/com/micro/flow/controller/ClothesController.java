@@ -41,9 +41,9 @@ public class ClothesController {
         return ok(clothesMapper.getShortenResponseListFromDomainPage(clothes));
     }
 
-    @GetMapping("/for-bag/{ids}")
+    @GetMapping("/for-bag/ids")
     public ResponseEntity<List<ShortenClothesResponse>> getAllByIds(
-            @PathVariable("ids") List<Long> ids) {
+            @RequestBody List<Long> ids) {
         var clothes = clothesService.getAllByIds(ids);
         log.debug("GET-CLOTHES by ids: {}", ids);
 
@@ -59,6 +59,7 @@ public class ClothesController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ox_seller')")
     public ResponseEntity<ClothesResponse> createClothes(
             @RequestBody @Valid ClothesCreateRequest createRequest) {
         var created = clothesService.create(
@@ -69,15 +70,16 @@ public class ClothesController {
                 .body(clothesMapper.getResponseFromDomain(created));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/seller/{username}/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Long id) {
+    @PreAuthorize("@clothesAuthService.isUserAuthAndOwnerOfClothes(#username, authentication.name, #id)")
+    public void delete(@PathVariable("id") Long id, @PathVariable String username) {
         clothesService.delete(id);
         log.debug("DELETE-CLOTHES with id: {}", id);
     }
 
-    @GetMapping("/for-bag/total-price/{ids}")
-    public ResponseEntity<BigDecimal> getTotalPriceForBag(@PathVariable("ids") List<Long> ids) {
+    @GetMapping("/for-bag/total-price")
+    public ResponseEntity<BigDecimal> getTotalPriceForBag(@RequestBody List<Long> ids) {
         var totalPrice = clothesService.reduceTotalPriceForBag(ids);
         log.debug("REDUCE-CLOTHES_FOR_BAG by ids: {}", ids);
 
