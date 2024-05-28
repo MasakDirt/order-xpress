@@ -49,4 +49,6 @@ public class ClothesCreateRequest {
     @NotNull(message = "Type of outerwear must be included!")
     private Type type;
 
+    @NotEmpty(message = "Seller username cannot be empty!")
+    private String sellerUsername;
 }
