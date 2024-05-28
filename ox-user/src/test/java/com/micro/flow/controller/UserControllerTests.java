@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.micro.flow.DomainTestingUtil.asJsonString;
+import static com.micro.flow.UserTestingUtil.asJsonString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
