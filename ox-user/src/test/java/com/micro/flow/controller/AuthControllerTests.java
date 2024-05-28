@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
-import static com.micro.flow.DomainTestingUtil.asJsonString;
+import static com.micro.flow.UserTestingUtil.asJsonString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
