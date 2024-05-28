@@ -11,8 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.micro.flow.DomainTestingUtil.getViolation;
-import static com.micro.flow.DomainTestingUtil.testInvalidField;
+import static com.micro.flow.UserTestingUtil.getViolation;
+import static com.micro.flow.UserTestingUtil.testInvalidField;
 
 @SpringBootTest
 @ActiveProfiles("test")
