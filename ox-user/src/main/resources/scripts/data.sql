@@ -13,17 +13,17 @@ INSERT INTO keycloak_role(id, name, realm_id)
 VALUES ('184099ca-f8d6-4209-b108-1bc8ce90899c', 'ox_user',
         '3743ce53-d2ef-4ca6-9a5a-399ba2ca7205'),
        ('892abe69-161b-42ba-85e5-f1e9a09a7414', 'ox_admin',
+        '3743ce53-d2ef-4ca6-9a5a-399ba2ca7205'),
+       ('f5d40d67-6afe-46c2-943c-0d23a86165e3', 'ox_seller',
         '3743ce53-d2ef-4ca6-9a5a-399ba2ca7205');
 
 INSERT INTO user_role_mapping(role_id, user_id)
-VALUES
-    ('892abe69-161b-42ba-85e5-f1e9a09a7414', 'dbf2b51c-a14f-4e22-a5c0-c4269fad8537'), -- adminito25 - ox_admin
-    ('184099ca-f8d6-4209-b108-1bc8ce90899c', 'dbf2b51c-a14f-4e22-a5c0-c4269fad8537'), -- adminito25 - ox_user
-    ('184099ca-f8d6-4209-b108-1bc8ce90899c', '2e04849a-0f4a-481c-96de-8f7f9863bf4a'), -- davidos - ox_user
-    ('184099ca-f8d6-4209-b108-1bc8ce90899c', 'ddeaecc5-68f3-4ddc-9731-175dffa994c7'), -- stonisloff24 - ox_user
-    ('184099ca-f8d6-4209-b108-1bc8ce90899c', '8f05a0eb-68c5-4d90-8cc6-c23f06f1817e'), -- markiz23 - ox_user
-    ('892abe69-161b-42ba-85e5-f1e9a09a7414', '8f05a0eb-68c5-4d90-8cc6-c23f06f1817e'); -- markiz23 - ox_admin
-
+VALUES ('892abe69-161b-42ba-85e5-f1e9a09a7414', 'dbf2b51c-a14f-4e22-a5c0-c4269fad8537'), -- adminito25 - ox_admin
+       ('184099ca-f8d6-4209-b108-1bc8ce90899c', 'dbf2b51c-a14f-4e22-a5c0-c4269fad8537'), -- adminito25 - ox_user
+       ('184099ca-f8d6-4209-b108-1bc8ce90899c', '2e04849a-0f4a-481c-96de-8f7f9863bf4a'), -- davidos - ox_user
+       ('184099ca-f8d6-4209-b108-1bc8ce90899c', 'ddeaecc5-68f3-4ddc-9731-175dffa994c7'), -- stonisloff24 - ox_user
+       ('184099ca-f8d6-4209-b108-1bc8ce90899c', '8f05a0eb-68c5-4d90-8cc6-c23f06f1817e'), -- markiz23 - ox_user
+       ('f5d40d67-6afe-46c2-943c-0d23a86165e3', '8f05a0eb-68c5-4d90-8cc6-c23f06f1817e'); -- markiz23 - ox_seller
 
 
 // all passwords here is - '1234'
