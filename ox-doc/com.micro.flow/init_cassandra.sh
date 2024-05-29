@@ -1,6 +1,7 @@
 #!/bin/bash
 
-CQL="CREATE KEYSPACE IF NOT EXISTS ox_bag WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};"
+CQL="CREATE KEYSPACE IF NOT EXISTS ox_bag WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+CREATE KEYSPACE IF NOT EXISTS ox_bag_tests WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};"
 
 until echo "$CQL" | cqlsh; do
   echo "cqlsh: Cassandra is unavailable - retry later"
