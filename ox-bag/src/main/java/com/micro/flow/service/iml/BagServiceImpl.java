@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -39,14 +38,6 @@ public class BagServiceImpl implements BagService {
     }
 
     @Override
-    public Bag getById(UUID id) {
-        var bag = bagRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Bag not found"));
-        log.info("Get bag by id: {}", id);
-        return bag;
-    }
-
-    @Override
     public Bag getByUsername(String username) {
         return bagRepository.findByUsername((username)).orElseThrow(
                 () -> new EntityNotFoundException("Bag not found for username: " + username));
@@ -68,7 +59,6 @@ public class BagServiceImpl implements BagService {
         bag.setTotalPrice(clothesServiceFeignClients.reduceClothes(bag.getClothesIds()));
         bagRepository.save(bag);
     }
-
 
     @Override
     public BigDecimal getTotalPriceByUsername(String username) {
