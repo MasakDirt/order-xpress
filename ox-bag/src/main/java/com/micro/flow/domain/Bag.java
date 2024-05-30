@@ -1,7 +1,6 @@
 package com.micro.flow.domain;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -60,6 +59,10 @@ public class Bag {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public Set<Long> getClothesIds() {
+        return clothesIds == null ? new HashSet<>() : clothesIds;
     }
 
     public Bag updateClothesIdAndGet(Long id) {
