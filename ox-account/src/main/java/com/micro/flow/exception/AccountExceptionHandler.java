@@ -8,12 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -45,7 +45,8 @@ public class AccountExceptionHandler {
         return getErrorResponse(request, BAD_REQUEST, ex.getLocalizedMessage());
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, BalanceException.class})
+    @ExceptionHandler({IllegalArgumentException.class, BalanceException.class,
+            ReplenishException.class})
     public ResponseEntity<ErrorResponse> handleBadRequestExceptions(
             HttpServletRequest request, RuntimeException ex) {
         return getErrorResponse(request, BAD_REQUEST, ex.getMessage());

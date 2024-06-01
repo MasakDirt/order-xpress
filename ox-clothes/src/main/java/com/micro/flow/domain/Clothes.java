@@ -60,13 +60,17 @@ public class Clothes {
     private List<SampleSize> sizes;
 
     @ElementCollection(fetch = EAGER)
-    @NotEmpty(message = "Colors must be included!")
+    @NotNull(message = "Colors must be included!")
     @CollectionTable(name = "clothes_colors",
             joinColumns = @JoinColumn(name = "clothes_id"))
     private List<String> colors;
 
     @Enumerated(STRING)
-    @NotNull(message = "Type of clothe must be included!")
+    @NotNull(message = "Type of clothes must be included!")
     private Type type;
+
+    @Column(name = "seller_username", nullable = false)
+    @NotEmpty(message = "Seller username cannot be empty!")
+    private String sellerUsername;
 
 }

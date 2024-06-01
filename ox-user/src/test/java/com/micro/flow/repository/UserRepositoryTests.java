@@ -1,5 +1,6 @@
 package com.micro.flow.repository;
 
+import com.micro.flow.domain.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
@@ -23,20 +27,23 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void testFindByEmailSuccess() {
-        String email = userRepository.findAll()
+    public void testFindByUsernameSuccess() {
+        User expected = userRepository.findAll()
                 .stream()
                 .findAny()
-                .get().getEmail();
+                .get();
 
-        assertTrue(userRepository.findByEmail(email).isPresent());
+        Optional<User> actual = userRepository.findByUsername(expected.getUsername());
+
+        assertTrue(actual.isPresent());
+        assertEquals(expected, actual.get());
     }
 
     @Test
-    public void testFindByEmailFail() {
-        String email = "invalid@mail.co";
+    public void testFindByUsernameFail() {
+        String username = "invalidUsername124456";
 
-        assertTrue(userRepository.findByEmail(email).isEmpty());
+        assertTrue(userRepository.findByUsername(username).isEmpty());
     }
 
 }

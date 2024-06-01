@@ -38,7 +38,7 @@ public class BagController {
 
     @GetMapping("/{username}")
     @PreAuthorize("@globalAuthService.isUserAuthenticated(#username, authentication.name)")
-    public ResponseEntity<BagResponse> getById(@PathVariable("username") String username) {
+    public ResponseEntity<BagResponse> getByUsername(@PathVariable("username") String username) {
         var response = bagMapper.getBagResponseFromDomain(bagService.getByUsername(username));
         log.debug("GET BAG: by username - {}", username);
 

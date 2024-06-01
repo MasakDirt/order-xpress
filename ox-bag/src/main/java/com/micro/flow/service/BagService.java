@@ -4,14 +4,11 @@ import com.micro.flow.domain.Bag;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Service
 public interface BagService {
 
-    Bag create(String userEmail);
-
-    Bag getById(UUID id);
+    Bag create(String username);
 
     Bag getByUsername(String username);
 

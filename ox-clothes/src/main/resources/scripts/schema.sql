@@ -12,6 +12,7 @@ CREATE TABLE clothes
     description      VARCHAR(255)   NOT NULL,
     available_amount INT            NOT NULL,
     type             VARCHAR(255)   NOT NULL,
+    seller_username  VARCHAR(255)   NOT NULL,
     PRIMARY KEY (id),
     CHECK (sex IN ('MALE', 'FEMALE', 'UNISEX')),
     CHECK (type IN ('T_SHIRT', 'PANTS', 'JACKET', 'SOCKS'))
