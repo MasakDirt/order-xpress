@@ -9,6 +9,7 @@ import com.micro.flow.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class AccountController {
     private final UserServiceFeignClient userServiceFeignClient;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Long createAccount(@PathVariable("username") String username) {
         var account = accountService.create(username);
         log.debug("CREATE ACCOUNT: {}", username);
@@ -39,7 +41,7 @@ public class AccountController {
         return getResponse(account, username);
     }
 
-    @PostMapping("/replenish")
+    @PutMapping("/replenish")
     @PreAuthorize("@globalAuthService.isUserAuthenticated(#username, authentication.name)")
     public ResponseEntity<AccountResponse> replenishAccount(
             @PathVariable("username") String username,
